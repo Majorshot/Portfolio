@@ -7,7 +7,7 @@ import FadeContent from "./Animations/FadeContent";
 
 const Home = () => {
   return (
-    <div id="home" className="relative w-screen h-screen overflow-hidden">
+    <div id="home" className="relative w-screen h-screen overflow-hidden ">
       <div className="absolute inset-0 -z-10">
         <Beams
           beamWidth={3}
@@ -28,7 +28,7 @@ const Home = () => {
           </div>
         </div>
         {/* Introduction - Shows below Lanyard in mobile, left side in desktop */}
-        <div className="w-full md:w-1/2 text-left order-2 md:order-1 mt-0 md:mt-0 pb-8 md:pb-0">
+        <div className="w-full md:w-1/2 text-left order-2 md:order-1 mt-0 md:mt-0 pb-20 md:pb-0">
           <FadeContent
             blur={true}
             duration={1000}
@@ -47,7 +47,7 @@ const Home = () => {
               threshold={0.2}
               delay={0.3}
             >
-              <h1 className="text-4xl md:text-7xl font-bold mb-6 text-white">
+              <h1 className="text-4xl md:text-7xl font-bold mb-6 -pt-10 text-white">
                 Full Stack Developer, Photographer & Tech Enthusiast
               </h1>
             </AnimatedContent>

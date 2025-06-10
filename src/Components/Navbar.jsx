@@ -40,7 +40,7 @@ const Navbar = () => {
       <div className="fixed top-6 right-6 z-50">
         <button
           onClick={toggleMenu}
-          className="inline-flex items-center justify-center p-3 rounded-full text-white hover:text-purple-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 transition-all duration-200 bg-white/10 backdrop-blur-sm shadow-lg border border-white/20"
+          className="inline-flex items-center justify-center p-3 rounded-full text-white  focus:outline-none  focus:ring-inset focus: transition-all duration-200 bg-white/10 backdrop-blur-sm shadow-lg border border-white/20"
           aria-expanded="false"
         >
           <span className="sr-only">Open main menu</span>
@@ -71,8 +71,8 @@ const Navbar = () => {
       >
         {" "}
         <div
-          className={`absolute inset-0 bg-black/80 transition-all duration-700 ease-out ${
-            isOpen ? "backdrop-blur-xl" : "backdrop-blur-none"
+          className={`absolute inset-0 bg-black/10 transition-all duration-700 ease-out ${
+            isOpen ? "backdrop-blur-3xl" : "backdrop-blur-none"
           }`}
         >
           {/* Menu Content */}
@@ -122,7 +122,7 @@ const Navbar = () => {
                     .querySelector("#contact")
                     .scrollIntoView({ behavior: "smooth" });
                 }}
-                className="bg-black bg-opacity-20 backdrop-blur-sm text-white px-6 py-3 rounded-full font-medium hover:bg-opacity-30 transition-all duration-200 border border-white border-opacity-30"
+                className="bg-black bg-opacity-20 backdrop-blur-sm text-white px-6 py-3 rounded-full font-medium hover:bg-opacity-30 transition-all duration-200 border border-white border-opacity-30 hover:bg-white cursor-pointer hover:text-black"
               >
                 CONTACT ME →
               </button>
