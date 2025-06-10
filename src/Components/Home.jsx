@@ -28,7 +28,7 @@ const Home = () => {
           </div>
         </div>
         {/* Introduction - Shows below Lanyard in mobile, left side in desktop */}
-        <div className="w-full md:w-1/2 text-left order-2 md:order-1 mt-0 md:mt-0 pb-20 md:pb-0">
+        <div className="w-full md:w-1/2 text-left order-2 md:order-1 mt-0 md:mt-0 pb-25 md:pb-0">
           <FadeContent
             blur={true}
             duration={1000}
