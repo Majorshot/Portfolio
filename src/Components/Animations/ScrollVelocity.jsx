@@ -1,13 +1,6 @@
 import { useRef, useLayoutEffect, useState } from "react";
-import {
-  motion,
-  useScroll,
-  useSpring,
-  useTransform,
-  useMotionValue,
-  useVelocity,
-  useAnimationFrame,
-} from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion,useScroll,useSpring,useTransform,useMotionValue,useVelocity,useAnimationFrame,} from "framer-motion";
 
 function useElementWidth(ref) {
   const [width, setWidth] = useState(0);

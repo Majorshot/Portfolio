@@ -4,6 +4,7 @@ import Lanyard from "./Animations/Lanyard";
 import AnimatedContent from "./Animations/AnimatedContent";
 import FadeContent from "./Animations/FadeContent";
 
+
 const Home = () => {
   return (
     <div id="home" className="relative w-screen h-screen overflow-hidden">

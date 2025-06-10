@@ -1,5 +1,6 @@
 import React, { useState, Children, useRef, useLayoutEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion, AnimatePresence } from "motion/react";
 
 export default function Stepper({
   children,

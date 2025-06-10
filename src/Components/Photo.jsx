@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue } from "framer-motion";
 import { assets } from "../assets/assets.js";
 import ShinyText from "./Animations/ShinyText";
@@ -31,7 +32,6 @@ export const Photo = () => {
   const [imgIndex, setImgIndex] = useState(0);
 
   const dragX = useMotionValue(0);
-
   useEffect(() => {
     const intervalRef = setInterval(() => {
       const x = dragX.get();
@@ -46,8 +46,11 @@ export const Photo = () => {
       }
     }, AUTO_DELAY);
 
+    // Reset dragX when imgIndex changes
+    dragX.set(0);
+
     return () => clearInterval(intervalRef);
-  }, []);
+  }, [imgIndex, dragX]);
 
   const onDragEnd = () => {
     const x = dragX.get();

@@ -1,12 +1,6 @@
 import { ReactLenis } from "@studio-freight/react-lenis";
-import {
-  motion,
-  useMotionTemplate,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion,useMotionTemplate,useScroll,useTransform,useMotionValue,useSpring,} from "framer-motion";
 import { SiSpacex } from "react-icons/si";
 import { FiArrowRight, FiMapPin } from "react-icons/fi";
 import React, { useRef } from "react";

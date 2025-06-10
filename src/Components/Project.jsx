@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { useMotionValue, motion, useSpring, useTransform } from "framer-motion";
 import React, { useRef } from "react";
 import { FiArrowRight } from "react-icons/fi";
@@ -18,21 +19,21 @@ export const Project = () => {
       <div className="mx-auto max-w-5xl">
         <Link
           heading="Precripto"
-          subheading="Learn what we do here"
+          subheading="Doctors appointment app"
           imgSrc={assets.prescipto}
-          href="#"
+          href="https://prescipto-qbg7.onrender.com/"
         />
         <Link
           heading="Pappas Pizza"
-          subheading="We work with great people"
+          subheading="Craving? order some pizzzzaaa"
           imgSrc={assets.pizza}
-          href="#"
+          href="https://pappaspizza.netlify.app/"
         />
         <Link
           heading="ToDo App"
-          subheading="Our work speaks for itself"
+          subheading="#Justdoeit"
           imgSrc={assets.todo}
-          href="#"
+          href="https://todoappsted.netlify.app/"
         />
       </div>
     </section>
@@ -70,6 +71,8 @@ const Link = ({ heading, imgSrc, subheading, href }) => {
   return (
     <motion.a
       href={href}
+      target="_blank"
+      rel="noopener noreferrer"
       ref={ref}
       onMouseMove={handleMouseMove}
       initial="initial"

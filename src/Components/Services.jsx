@@ -1,18 +1,13 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+// eslint-disable-next-line no-unused-vars
+import { motion, useScroll, useTransform } from "motion/react";
 import assets from "../assets/assets";
-import ShinyText from "./Animations/ShinyText";
 
 export const Services = () => {
   return (
     <div id="services" className="bg-black">
       <div className="flex justify-center items-center pt-20 pb-12">
-        <ShinyText
-          text="My Services"
-          disabled={false}
-          speed={3}
-          className="text-5xl md:text-7xl font-bold"
-        />
+        
       </div>
       <TextParallaxContent
         imgUrl={assets.web}

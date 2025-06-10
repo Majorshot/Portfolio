@@ -8,6 +8,7 @@ import Photo from "./Components/Photo";
 import Project from "./Components/Project";
 import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
+import Div2 from "./Components/Div2";
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
       <Home />
       <Div />
       <About />
+      <Div2/>
       <Services />
       <Project />
       <Photo />
