@@ -6,7 +6,7 @@ import AnimatedContent from './Animations/AnimatedContent'
 
 const Services = () => {
   return (
-    <div className='bg-black text-white pt-24 overflow-hidden w-screen h-full min-h-screen  items-center'>
+    <div id='services' className='bg-black text-white pt-24 overflow-hidden w-screen h-full min-h-screen  items-center'>
       <div className='text-center mb-6'>
             <ShinyText
               text="My Services"
@@ -123,7 +123,7 @@ const Services = () => {
 
         {/* Right side - Card Swap Animation */}
         
-         <div className='relative h-[200px] lg:h-[800px]'>
+         <div className='relative h-[200px] lg:h-[500px]'>
   <CardSwap
     cardDistance={60}
     verticalDistance={70}
@@ -131,16 +131,28 @@ const Services = () => {
     pauseOnHover={false}
   >
     <Card>
-      <h3 className='border-b pl-3 py-2'>Web development</h3>
-      <img src={assets.web} alt="web" className="w-full h-full object-cover rounded-b-xl" />
+      <div className="h-full flex flex-col border border-gray-300 rounded-xl overflow-hidden bg-white">
+        <h3 className='border-b border-gray-300 pl-3 py-2 text-black font-medium'>Web development</h3>
+        <div className="flex-1 overflow-hidden">
+          <img src={assets.web} alt="web" className="w-full h-full object-cover" />
+        </div>
+      </div>
     </Card>
     <Card>
-      <h3 className='border-b pl-3 py-2'>Graphic designing</h3>
-      <img src={assets.graphic} alt="graphic" className="w-full h-full object-cover rounded-b-xl" />
+      <div className="h-full flex flex-col border border-gray-300 rounded-xl overflow-hidden bg-white">
+        <h3 className='border-b border-gray-300 pl-3 py-2 text-black font-medium'>Graphic designing</h3>
+        <div className="flex-1 overflow-hidden">
+          <img src={assets.graphic} alt="graphic" className="w-full h-full object-cover" />
+        </div>
+      </div>
     </Card>
     <Card>
-      <h3 className='border-b pl-3 py-2'>Photography & Video editing</h3>
-      <img src={assets.editing} alt="editing" className="w-full h-full object-cover rounded-b-xl" />
+      <div className="h-full flex flex-col border border-gray-300 rounded-xl overflow-hidden bg-white">
+        <h3 className='border-b border-gray-300 pl-3 py-2 text-black font-medium'>Photography & Video editing</h3>
+        <div className="flex-1 overflow-hidden">
+          <img src={assets.editing} alt="editing" className="w-full h-full object-cover" />
+        </div>
+      </div>
     </Card>
   </CardSwap>
 </div>

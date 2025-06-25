@@ -1,91 +1,75 @@
 import React from "react";
-import Beams from "./Animations/Beams";
-import Lanyard from "./Animations/Lanyard";
+import Aurora from "./Animations/Aurora";
+import SplitText from "./Animations/SplitText";
+import ShinyText from "./Animations/ShinyText";
+import Lottie from "lottie-react";
+import scrollDownAnimation from "../../public/scrollDown.json";
 import AnimatedContent from "./Animations/AnimatedContent";
-import FadeContent from "./Animations/FadeContent";
 
+const handleAnimationComplete = () => {
+  console.log("Animation completed!");
+};
 
 const Home = () => {
   return (
-    <div id="home" className="relative w-screen h-screen overflow-hidden ">
-      <div className="absolute inset-0 -z-10">
-        <Beams
-          beamWidth={3}
-          beamHeight={30}
-          beamNumber={20}
-          lightColor="#ffffff"
-          speed={2}
-          noiseIntensity={1.75}
-          scale={0.2}
-          rotation={30}
-        />{" "}
+    <div id='home' className="relative h-screen w-screen bg-black overflow-hidden">
+      {/* Aurora as main background */}
+      <div className="absolute inset-0 w-full h-full z-0">
+        <Aurora
+          colorStops={["#C3139D", "#353BE9", "#C3139D"]}
+          blend={0.5}
+          amplitude={1.0}
+          speed={0.5}
+        />
       </div>
-      <div className="relative z-10 flex flex-col md:flex-row items-center justify-between w-full h-full px-4 md:px-12">
-        {/* Lanyard Animation - Shows on top in mobile, right side in desktop */}
-        <div className="w-full md:w-1/2 h-[5vh] md:h-full order-1 md:order-2 md:relative flex items-start md:items-center justify-end md:justify-center">
-          <div className="w-full h-full md:opacity-100 transform scale-80 md:scale-100 translate-x-8  -translate-y-10 md:translate-x- md:translate-y-0">
-            <Lanyard position={[0, 0, 20]} gravity={[0, -40, 0]} />
-          </div>
+      {/* Content above Aurora */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8">
+        <SplitText
+          text="Crafting Code. Designing Dreams."
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-semibold text-center text-white leading-tight"
+          delay={100}
+          duration={2}
+          ease="power3.out"
+          splitType="lines"
+          from={{ opacity: 0, y: 100 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0.1}
+          rootMargin="-100px"
+          textAlign="center"
+          onLetterAnimationComplete={handleAnimationComplete}
+        />
+        <div className="mt-4 sm:mt-6 md:mt-8">
+          <SplitText
+            text="Engineering seamless experiences with elegance, speed, and soul."
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-semibold text-center text-white leading-relaxed px-2 sm:whitespace-nowrap"
+            delay={100}
+            duration={3}
+            ease="power3.out"
+            splitType="lines"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.1}
+            rootMargin="-100px"
+            textAlign="center"
+            onLetterAnimationComplete={handleAnimationComplete}
+          />
         </div>
-        {/* Introduction - Shows below Lanyard in mobile, left side in desktop */}
-        <div className="w-full md:w-1/2 text-left order-2 md:order-1 mt-0 md:mt-0 pb-25 md:pb-0">
-          <FadeContent
-            blur={true}
-            duration={1000}
-            easing="ease-out"
-            initialOpacity={0}
-          >
-            <AnimatedContent
-              distance={150}
-              direction="horizontal"
-              reverse={true}
-              duration={2.5}
-              ease="power3.out"
-              initialOpacity={0}
-              animateOpacity
-              scale={1}
-              threshold={0.2}
-              delay={0.3}
-            >
-              <h1 className="text-4xl md:text-7xl font-bold mb-6 -pt-10 text-white">
-                Full Stack Developer, Photographer & Tech Enthusiast
-              </h1>
-            </AnimatedContent>
-          </FadeContent>
-
+        
+        <div className="flex flex-row items-center justify-center gap-3 sm:gap-6 lg:gap-10 pt-12 sm:pt-16 lg:pt-24 w-full max-w-md sm:max-w-none">
           <AnimatedContent
             distance={150}
             direction="horizontal"
             reverse={true}
-            duration={2.5}
+            duration={2}
             ease="power3.out"
             initialOpacity={0}
             animateOpacity
             scale={1}
             threshold={0.2}
-            delay={1}
+            delay={1.5}
           >
-            <p className="text-lg md:text-xl text-gray-300 mb-8">
-              I create exceptional digital experiences through innovative web
-              solutions and capture moments that tell compelling stories.
-            </p>
-          </AnimatedContent>
-
-          <AnimatedContent
-            distance={150}
-            direction="vertical"
-            reverse={true}
-            duration={2.5}
-            ease="power3.out"
-            initialOpacity={0}
-            animateOpacity
-            scale={1}
-            threshold={0.2}
-            delay={1.8}
-          >
-            <div className="flex gap-4">
-              {" "}
-              <a
+            
+            <a
                 href="#contact"
                 onClick={(e) => {
                   e.preventDefault();
@@ -93,17 +77,58 @@ const Home = () => {
                     .querySelector("#contact")
                     .scrollIntoView({ behavior: "smooth" });
                 }}
-                className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+                className="w-full sm:w-auto text-center text-sm sm:text-base rounded-2xl border-2 border-dashed border-black bg-white px-6 sm:px-6 py-4 sm:py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
               >
                 Get in Touch
               </a>
-              <a
+          </AnimatedContent>
+
+          <AnimatedContent
+            distance={150}
+            direction="horizontal"
+            reverse={false}
+            duration={2}
+            ease="power3.out"
+            initialOpacity={0}
+            animateOpacity
+            scale={1}
+            threshold={0.2}
+            delay={1.5}
+          >
+            <a
                 href="https://drive.google.com/file/d/1i5xAfm0aTy4FW8DJKeiDkxpYQmz3Gem_/view?usp=sharing"
                 target="_blank"
-                className="rounded-2xl border-2 border-dashed border-black bg-white px-6 py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+                className="w-full sm:w-auto text-center text-sm sm:text-base rounded-2xl border-2 border-dashed border-black bg-white px-6 sm:px-6 py-4 sm:py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
               >
                 My Resume
               </a>
+          </AnimatedContent>
+        </div>
+        
+        {/* Lottie scroll down animation at bottom */}
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-9 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
+          <AnimatedContent
+            distance={150}
+            direction="vertical"
+            reverse={true}
+            duration={2}
+            ease="power3.out"
+            initialOpacity={0}
+            animateOpacity
+            scale={1}
+            threshold={0.2}
+            delay={3}
+          >
+            <div className="flex flex-col items-center">
+              <Lottie
+                animationData={scrollDownAnimation}
+                loop={true}
+                style={{ width: 48, height: 48 }}
+                className="sm:w-16 sm:h-16"
+              />
+              <span className="mt-2 text-sm sm:text-base lg:text-lg text-neutral-200 font-medium text-center px-4">
+                Scroll down to know more
+              </span>
             </div>
           </AnimatedContent>
         </div>
