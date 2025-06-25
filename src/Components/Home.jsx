@@ -106,7 +106,7 @@ const Home = () => {
         </div>
         
         {/* Lottie scroll down animation at bottom */}
-        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-9 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
+        <div className="absolute bottom-20 sm:bottom-6 lg:bottom-9 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
           <AnimatedContent
             distance={150}
             direction="vertical"
