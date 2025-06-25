@@ -23,7 +23,7 @@ const Home = () => {
         />
       </div>
       {/* Content above Aurora */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 -translate-y-16 sm:-translate-y-24 lg:-translate-y-32">
         <SplitText
           text="Crafting Code. Designing Dreams."
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-semibold text-center text-white leading-tight"
