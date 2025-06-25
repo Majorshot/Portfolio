@@ -3,7 +3,7 @@ import Aurora from "./Animations/Aurora";
 import SplitText from "./Animations/SplitText";
 import ShinyText from "./Animations/ShinyText";
 import Lottie from "lottie-react";
-import scrollDownAnimation from "../../public/scrollDown.json";
+import scrollDownAnimation from "../assets/scrollDown.json";
 import AnimatedContent from "./Animations/AnimatedContent";
 
 const handleAnimationComplete = () => {
