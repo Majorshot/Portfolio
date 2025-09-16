@@ -5,8 +5,8 @@ import logo from "../assets/logo.png"; // Adjust path if your logo is elsewhere
 const menuItems = [
   { label: "Home", ariaLabel: "Go to home page", link: "#home" },
   { label: "About", ariaLabel: "Learn about us", link: "#about" },
-  { label: "Projects", ariaLabel: "Learn about us", link: "#projects" },
   { label: "Services", ariaLabel: "View our services", link: "#services" },
+  { label: "Projects", ariaLabel: "Learn about us", link: "#projects" },
   { label: "Contact", ariaLabel: "Get in touch", link: "#contact" },
 ];
 
