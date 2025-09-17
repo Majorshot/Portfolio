@@ -10,11 +10,7 @@ const menuItems = [
   { label: "Contact", ariaLabel: "Get in touch", link: "#contact" },
 ];
 
-const socialItems = [
-  { label: "Twitter", link: "https://twitter.com" },
-  { label: "GitHub", link: "https://github.com" },
-  { label: "LinkedIn", link: "https://linkedin.com" },
-];
+
 
 const handleSmoothScroll = (e, link) => {
   e.preventDefault(); // Prevents the default anchor tag jump
@@ -34,7 +30,6 @@ const Navbar = () => {
     <StaggeredMenu
       position="right"
       items={menuItems}
-      socialItems={socialItems}
       displaySocials={true}
       displayItemNumbering={true}
       menuButtonColor="#fff"

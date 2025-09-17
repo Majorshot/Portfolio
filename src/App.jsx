@@ -8,6 +8,7 @@ import Photo from "./Components/Photo";
 import Project from "./Components/Project";
 import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
+import GradualBlur from "./Components/Animations/GradualBlur";
 
 const App = () => {
   return (
@@ -19,8 +20,18 @@ const App = () => {
       <Services />
       <Project />
       <Photo />
-      <Contact/>
-      <Footer/>
+      <Contact />
+      <Footer />
+      <GradualBlur
+        target="page"
+        position="top"
+        height="12rem"
+        strength={2}
+        divCount={5}
+        curve="bezier"
+        exponential={true}
+        opacity={1}
+      />
     </div>
   );
 };

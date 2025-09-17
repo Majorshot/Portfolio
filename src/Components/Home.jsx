@@ -1,10 +1,10 @@
 import React from "react";
-import Aurora from "./Animations/Aurora";
+import PrismaticBurst from "./Animations/PrismaticBurst";
 import SplitText from "./Animations/SplitText";
-import ShinyText from "./Animations/ShinyText";
 import Lottie from "lottie-react";
 import scrollDownAnimation from "../assets/scrollDown.json";
 import AnimatedContent from "./Animations/AnimatedContent";
+import TextType from "./Animations/TextType";
 
 const handleAnimationComplete = () => {
   console.log("Animation completed!");
@@ -12,31 +12,38 @@ const handleAnimationComplete = () => {
 
 const Home = () => {
   return (
-    <div id='home' className="relative h-screen w-screen bg-black overflow-hidden">
+    <div
+      id="home"
+      className="relative h-screen w-screen bg-black overflow-hidden"
+    >
       {/* Aurora as main background */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <Aurora
-          colorStops={["#C3139D", "#353BE9", "#C3139D"]}
-          blend={0.5}
-          amplitude={1.0}
+        <PrismaticBurst
+          animationType="rotate3d"
+          intensity={2}
           speed={0.5}
+          distort={1.0}
+          paused={false}
+          offset={{ x: 0, y: 0 }}
+          hoverDampness={0.25}
+          rayCount={24}
+          mixBlendMode="lighten"
+          colors={["#ff007a", "#4d3dff", "#ffffff"]}
         />
       </div>
       {/* Content above Aurora */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 -translate-y-16 sm:-translate-y-24 lg:-translate-y-8">
-        <SplitText
-          text="Crafting Code. Designing Dreams."
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-semibold text-center text-white leading-tight"
-          delay={100}
-          duration={2}
-          ease="power3.out"
-          splitType="lines"
-          from={{ opacity: 0, y: 100 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0.1}
-          rootMargin="-100px"
-          textAlign="center"
-          onLetterAnimationComplete={handleAnimationComplete}
+        <TextType
+          text={[
+            "Welcome to my Portfolio!!",
+            "Scroll down to know more about me!",
+            "Enjoy!",
+          ]}
+          typingSpeed={75}
+          pauseDuration={1500}
+          showCursor={true}
+          cursorCharacter="|"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
         />
         <div className="mt-4 sm:mt-6 md:mt-8">
           <SplitText
@@ -54,7 +61,7 @@ const Home = () => {
             onLetterAnimationComplete={handleAnimationComplete}
           />
         </div>
-        
+
         <div className="flex flex-row items-center justify-center gap-3 sm:gap-6 lg:gap-10 pt-12 sm:pt-16 lg:pt-24 w-full max-w-md sm:max-w-none">
           <AnimatedContent
             distance={150}
@@ -68,19 +75,18 @@ const Home = () => {
             threshold={0.2}
             delay={1.5}
           >
-            
             <a
-                href="#contact"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document
-                    .querySelector("#contact")
-                    .scrollIntoView({ behavior: "smooth" });
-                }}
-                className="w-full sm:w-auto text-center text-sm sm:text-base rounded-2xl border-2 border-dashed border-black bg-white px-6 sm:px-6 py-4 sm:py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
-              >
-                Get in Touch
-              </a>
+              href="#contact"
+              onClick={(e) => {
+                e.preventDefault();
+                document
+                  .querySelector("#contact")
+                  .scrollIntoView({ behavior: "smooth" });
+              }}
+              className="w-full sm:w-auto text-center text-sm sm:text-base rounded-2xl border-2 border-dashed border-black bg-white px-6 sm:px-6 py-4 sm:py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+            >
+              Get in Touch
+            </a>
           </AnimatedContent>
 
           <AnimatedContent
@@ -96,15 +102,15 @@ const Home = () => {
             delay={1.5}
           >
             <a
-                href="https://drive.google.com/file/d/1N6OSk6vVPt6omUmZaSSL8QcS3oqnfTYp/view?usp=sharing"
-                target="_blank"
-                className="w-full sm:w-auto text-center text-sm sm:text-base rounded-2xl border-2 border-dashed border-black bg-white px-6 sm:px-6 py-4 sm:py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
-              >
-                My Resume
-              </a>
+              href="https://drive.google.com/file/d/1N6OSk6vVPt6omUmZaSSL8QcS3oqnfTYp/view?usp=sharing"
+              target="_blank"
+              className="w-full sm:w-auto text-center text-sm sm:text-base rounded-2xl border-2 border-dashed border-black bg-white px-6 sm:px-6 py-4 sm:py-3 font-semibold uppercase text-black transition-all duration-300 hover:translate-x-[-4px] hover:translate-y-[-4px] hover:rounded-md hover:shadow-[4px_4px_0px_black] active:translate-x-[0px] active:translate-y-[0px] active:rounded-2xl active:shadow-none"
+            >
+              My Resume
+            </a>
           </AnimatedContent>
         </div>
-        
+
         {/* Lottie scroll down animation at bottom */}
         <div className="absolute bottom-20 sm:bottom-6 lg:bottom-9 left-1/2 -translate-x-1/2 flex flex-col items-center z-20">
           <AnimatedContent
