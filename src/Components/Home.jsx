@@ -36,7 +36,7 @@ const Home = () => {
         <TextType
           text={[
             "Welcome to my Portfolio!",
-            "Its great to have you here!",
+            "It's great to have you here!",
             "Scroll down to know more about me!",
             
           ]}
