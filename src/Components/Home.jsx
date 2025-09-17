@@ -1,5 +1,5 @@
 import React from "react";
-import PrismaticBurst from "./Animations/PrismaticBurst";
+import Galaxy from "./Animations/Galaxy";
 import SplitText from "./Animations/SplitText";
 import Lottie from "lottie-react";
 import scrollDownAnimation from "../assets/scrollDown.json";
@@ -18,18 +18,15 @@ const Home = () => {
     >
       {/* Aurora as main background */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <PrismaticBurst
-          animationType="rotate3d"
-          intensity={2}
-          speed={0.5}
-          distort={1.0}
-          paused={false}
-          offset={{ x: 0, y: 0 }}
-          hoverDampness={0.25}
-          rayCount={24}
-          mixBlendMode="lighten"
-          colors={["#ff007a", "#4d3dff", "#ffffff"]}
-        />
+        <Galaxy 
+    mouseRepulsion={true}
+    mouseInteraction={true}
+    density={1}
+    glowIntensity={0.6}
+    twinkleIntensity={1.3}
+    saturation={1}
+    hueShift={140}
+  />
       </div>
       {/* Content above Aurora */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 -translate-y-16 sm:-translate-y-24 lg:-translate-y-8">
