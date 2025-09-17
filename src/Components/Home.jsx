@@ -43,7 +43,7 @@ const Home = () => {
           pauseDuration={1500}
           showCursor={true}
           cursorCharacter="|"
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl text-center"
         />
         <div className="mt-4 sm:mt-6 md:mt-8">
           <SplitText
