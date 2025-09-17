@@ -35,9 +35,10 @@ const Home = () => {
       <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 sm:px-6 lg:px-8 -translate-y-16 sm:-translate-y-24 lg:-translate-y-8">
         <TextType
           text={[
-            "Welcome to my Portfolio!!",
+            "Welcome to my Portfolio!",
+            "Its great to have you here!",
             "Scroll down to know more about me!",
-            "Enjoy!",
+            
           ]}
           typingSpeed={75}
           pauseDuration={1500}
