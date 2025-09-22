@@ -2,6 +2,7 @@ import pizza from './pizza.png';
 import prescipto from './prescipto.png';
 import reactLogo from './react.svg';
 import todo from './todo.png';
+import car from './car.png';
 import logo from './logo.png';
 import chicken from './chicken.jpg';
 import choco from './choco.jpg';
@@ -27,6 +28,7 @@ export const assets = {
     prescipto,
     reactLogo,
     todo,
+    car,
     logo,
     chicken,
     choco,

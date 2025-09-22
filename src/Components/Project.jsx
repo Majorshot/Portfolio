@@ -35,6 +35,12 @@ export const Project = () => {
           imgSrc={assets.todo}
           href="https://todoappsted.netlify.app/"
         />
+        <Link
+          heading="GoRental"
+          subheading="Car rental made easy"
+          imgSrc={assets.car}
+          href="https://gorentalcom.netlify.app/"
+        />
       </div>
     </section>
   );
