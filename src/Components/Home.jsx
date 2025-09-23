@@ -1,10 +1,10 @@
 import React from "react";
-import Galaxy from "./Animations/Galaxy";
 import SplitText from "./Animations/SplitText";
 import Lottie from "lottie-react";
 import scrollDownAnimation from "../assets/scrollDown.json";
 import AnimatedContent from "./Animations/AnimatedContent";
 import TextType from "./Animations/TextType";
+import LightRays from './Animations/LightRays';
 
 const handleAnimationComplete = () => {
   console.log("Animation completed!");
@@ -18,14 +18,17 @@ const Home = () => {
     >
       {/* Aurora as main background */}
       <div className="absolute inset-0 w-full h-full z-0">
-        <Galaxy 
-    mouseRepulsion={true}
-    mouseInteraction={true}
-    density={1}
-    glowIntensity={0.6}
-    twinkleIntensity={1.3}
-    saturation={1}
-    hueShift={140}
+         <LightRays
+    raysOrigin="top-center"
+    raysColor="#0cbb8f"
+    raysSpeed={1.8}
+    lightSpread={2.5}
+    rayLength={5}
+    followMouse={true}
+    mouseInfluence={0.1}
+    noiseAmount={0.1}
+    distortion={0.05}
+    className="custom-rays"
   />
       </div>
       {/* Content above Aurora */}
@@ -35,7 +38,6 @@ const Home = () => {
             "Welcome to my Portfolio!",
             "It's great to have you here!",
             "Scroll down to know more about me!",
-            
           ]}
           typingSpeed={75}
           pauseDuration={1500}

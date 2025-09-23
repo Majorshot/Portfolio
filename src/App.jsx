@@ -9,6 +9,7 @@ import Project from "./Components/Project";
 import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
 import GradualBlur from "./Components/Animations/GradualBlur";
+import Journey from "./Components/Journey";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
       <Home />
       <Div />
       <About />
+      <Journey/>
       <Services />
       <Project />
       <Photo />
