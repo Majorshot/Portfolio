@@ -70,3 +70,89 @@ body {
   opacity: 0;
 }
 
+.hero-ribbon-banner {
+  opacity: 0;
+}
+
+.hero-gemini-star {
+  opacity: 0;
+}
+
+/* Moving Ribbon Marquee Animations */
+@keyframes marquee-forward {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-backward {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-forward {
+  display: flex;
+  flex-shrink: 0;
+  animation: marquee-forward 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-backward {
+  display: flex;
+  flex-shrink: 0;
+  animation: marquee-backward 34s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-fast {
+  display: flex;
+  flex-shrink: 0;
+  animation: marquee-forward 24s linear infinite;
+  will-change: transform;
+}
+
+/* Pause ribbon marquee on hover for interactive tactile feel */
+.hero-ribbon-banner:hover .animate-marquee-forward,
+.hero-ribbon-banner:hover .animate-marquee-backward,
+.hero-ribbon-banner:hover .animate-marquee-fast {
+  animation-play-state: paused;
+}
+
+/* Premium Gemini Star Rotational & Breathing Motion */
+@keyframes gemini-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gemini-float {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+  }
+  50% {
+    transform: translateY(-3px) scale(1.05);
+  }
+}
+
+.animate-gemini-spin {
+  animation: gemini-spin 18s linear infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.animate-gemini-float {
+  animation: gemini-float 4s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+

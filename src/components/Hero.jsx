@@ -2,6 +2,42 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Waves from './Waves';
 
+const TOP_TINY_TRACK = [
+  '/// CORE STACKS & ARCHITECTURE',
+  'HIGH PERFORMANCE LOGIC',
+  'SCALABLE FULL STACK ENGINE',
+  '60FPS INTERACTIVE MOTION',
+  'MODERN WEB RUNTIMES',
+  'MODULAR SYSTEM DESIGN ///',
+];
+
+const MIDDLE_STACKS = [
+  'REACT',
+  'NEXT.JS',
+  'TYPESCRIPT',
+  'NODE.JS',
+  'TAILWIND CSS',
+  'GSAP',
+  'POSTGRESQL',
+  'PYTHON',
+  'DOCKER',
+  'THREE.JS',
+  'GRAPHQL',
+  'REDIS',
+  'VITE',
+];
+
+const BOTTOM_TOOLS_TRACK = [
+  '/// TOOLS & WORKFLOW: VS CODE',
+  'GIT & GITHUB ACTIONS',
+  'FIGMA UI/UX',
+  'POSTMAN API',
+  'LINUX & TERMINAL',
+  'VERCEL DEPLOYMENTS',
+  'WEBGL & SHADERS',
+  'CI/CD AUTOMATION ///',
+];
+
 export default function Hero({ isLoaded = true }) {
   const bannerRef = useRef(null);
 
@@ -9,6 +45,8 @@ export default function Hero({ isLoaded = true }) {
     // Park runner blocks and hide text immediately on mount, even while isLoaded is false
     gsap.set('.hero-reveal-text', { opacity: 0 });
     gsap.set('.hero-reveal-block', { xPercent: -101, opacity: 0, x: 0 });
+    gsap.set('.hero-ribbon-banner', { opacity: 0, y: -8 });
+    gsap.set('.hero-gemini-star', { opacity: 0, scale: 0.5 });
 
     if (!isLoaded) return;
 
@@ -16,9 +54,19 @@ export default function Hero({ isLoaded = true }) {
       // Park runner blocks off-screen to the left (-101%), hide texts
       gsap.set('.hero-reveal-text', { opacity: 0 });
       gsap.set('.hero-reveal-block', { xPercent: -101, opacity: 0, x: 0 });
+      gsap.set('.hero-ribbon-banner', { opacity: 0, y: -8 });
+      gsap.set('.hero-gemini-star', { opacity: 0, scale: 0.5 });
 
-      // Double animation with runner line/block sweeping left-to-right, cascading top-to-bottom
-      const tl = gsap.timeline({ delay: 0.18 });
+      // Clean delay after preloader curtain unfolds
+      const tl = gsap.timeline({ delay: 0.15 });
+
+      // 1. Ribbon banner glides in at the top
+      tl.to('.hero-ribbon-banner', {
+        opacity: 1,
+        y: 0,
+        duration: 0.45,
+        ease: 'power3.out',
+      });
 
       const rows = [
         { text: '.hero-tag-text', block: '.hero-tag-block', dur: 0.32 },
@@ -37,7 +85,7 @@ export default function Hero({ isLoaded = true }) {
             duration: row.dur,
             ease: 'power3.inOut',
           },
-          i === 0 ? '+=0.05' : '-=0.18'
+          i === 0 ? '-=0.15' : '-=0.18'
         )
         // Reveal text behind block as block fully covers it
         .set(row.text, { opacity: 1 }, '-=0.1')
@@ -53,6 +101,16 @@ export default function Hero({ isLoaded = true }) {
         )
         // Once exited, completely hide block so it never lingers or flashes
         .set(row.block, { opacity: 0 });
+
+        // When MOHAN (row index 2) reveals, pop the Gemini star in with an elastic spring
+        if (i === 2) {
+          tl.to('.hero-gemini-star', {
+            opacity: 1,
+            scale: 1,
+            duration: 0.5,
+            ease: 'back.out(2)',
+          }, '-=0.15');
+        }
       });
     }, bannerRef);
 
@@ -94,6 +152,66 @@ export default function Hero({ isLoaded = true }) {
         ref={bannerRef}
         className="w-full bg-[#d4ff00] text-[#121316] px-3 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 z-20 overflow-hidden"
       >
+        {/* 3-PART MOVING RIBBON BANNER (STACKS & TOOLS) */}
+        <div 
+          className="hero-ribbon-banner -mx-3 sm:-mx-6 md:-mx-10 -mt-4 sm:-mt-6 md:-mt-8 mb-3 sm:mb-5 bg-[#121316] text-[#d4ff00] border-b-2 border-[#121316] overflow-hidden select-none group cursor-default shadow-sm"
+          style={{ opacity: 0 }}
+        >
+          {/* Part 1: Top Very Tiny Track */}
+          <div className="w-full overflow-hidden border-b border-[#d4ff00]/15 py-0.5 sm:py-1 bg-[#121316]">
+            <div className="flex w-max">
+              <div className="animate-marquee-forward flex items-center gap-6 sm:gap-8 text-[8px] sm:text-[9px] font-mono tracking-[0.25em] uppercase text-[#d4ff00]/70 font-semibold px-3">
+                {TOP_TINY_TRACK.map((item, idx) => (
+                  <span key={idx} className="whitespace-nowrap">{item}</span>
+                ))}
+              </div>
+              <div className="animate-marquee-forward flex items-center gap-6 sm:gap-8 text-[8px] sm:text-[9px] font-mono tracking-[0.25em] uppercase text-[#d4ff00]/70 font-semibold px-3" aria-hidden="true">
+                {TOP_TINY_TRACK.map((item, idx) => (
+                  <span key={`dup-${idx}`} className="whitespace-nowrap">{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Part 2: Middle Big Words Track */}
+          <div className="w-full overflow-hidden py-1 sm:py-2 bg-[#0e0f11]">
+            <div className="flex w-max">
+              <div className="animate-marquee-fast flex items-center gap-5 sm:gap-8 text-sm sm:text-lg md:text-xl font-black uppercase tracking-wider text-[#d4ff00] px-3 font-anton">
+                {MIDDLE_STACKS.map((item, idx) => (
+                  <span key={idx} className="flex items-center gap-5 sm:gap-8 whitespace-nowrap">
+                    <span>{item}</span>
+                    <span className="text-[10px] sm:text-xs text-[#d4ff00]/40">✦</span>
+                  </span>
+                ))}
+              </div>
+              <div className="animate-marquee-fast flex items-center gap-5 sm:gap-8 text-sm sm:text-lg md:text-xl font-black uppercase tracking-wider text-[#d4ff00] px-3 font-anton" aria-hidden="true">
+                {MIDDLE_STACKS.map((item, idx) => (
+                  <span key={`dup-${idx}`} className="flex items-center gap-5 sm:gap-8 whitespace-nowrap">
+                    <span>{item}</span>
+                    <span className="text-[10px] sm:text-xs text-[#d4ff00]/40">✦</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Part 3: Bottom Very Tiny Track */}
+          <div className="w-full overflow-hidden border-t border-[#d4ff00]/15 py-0.5 sm:py-1 bg-[#121316]">
+            <div className="flex w-max">
+              <div className="animate-marquee-backward flex items-center gap-6 sm:gap-8 text-[8px] sm:text-[9px] font-mono tracking-[0.25em] uppercase text-[#d4ff00]/70 font-semibold px-3">
+                {BOTTOM_TOOLS_TRACK.map((item, idx) => (
+                  <span key={idx} className="whitespace-nowrap">{item}</span>
+                ))}
+              </div>
+              <div className="animate-marquee-backward flex items-center gap-6 sm:gap-8 text-[8px] sm:text-[9px] font-mono tracking-[0.25em] uppercase text-[#d4ff00]/70 font-semibold px-3" aria-hidden="true">
+                {BOTTOM_TOOLS_TRACK.map((item, idx) => (
+                  <span key={`dup-${idx}`} className="whitespace-nowrap">{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div className="w-full flex flex-col">
 
           {/* 1. ABOVE NAME: Full Stack Developer with rightward double animation */}
@@ -129,18 +247,49 @@ export default function Hero({ isLoaded = true }) {
               />
             </div>
 
-            {/* LINE 2: MOHAN */}
-            <div className="relative inline-block overflow-hidden self-start">
-              <span
-                className="hero-reveal-text hero-mohan-text relative z-10 block whitespace-nowrap"
+            {/* LINE 2: MOHAN + ROTATING GEMINI STAR IN VACANT SPACE */}
+            <div className="flex items-center gap-3 sm:gap-6 md:gap-8 flex-nowrap self-start">
+              <div className="relative inline-block overflow-hidden self-start">
+                <span
+                  className="hero-reveal-text hero-mohan-text relative z-10 block whitespace-nowrap"
+                  style={{ opacity: 0 }}
+                >
+                  MOHAN
+                </span>
+                <span
+                  className="hero-reveal-block hero-mohan-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform"
+                  style={{ transform: 'translateX(-101%)', opacity: 0 }}
+                />
+              </div>
+
+              {/* Rotating Gemini Star */}
+              <div 
+                className="hero-gemini-star flex items-center justify-center shrink-0 select-none group cursor-pointer"
                 style={{ opacity: 0 }}
+                title="Google Gemini AI"
               >
-                MOHAN
-              </span>
-              <span
-                className="hero-reveal-block hero-mohan-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform"
-                style={{ transform: 'translateX(-101%)', opacity: 0 }}
-              />
+                <div className="animate-gemini-float">
+                  <svg
+                    viewBox="0 0 100 100"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 text-[#121316] animate-gemini-spin will-change-transform drop-shadow-[0_2px_10px_rgba(18,19,22,0.2)] transition-transform duration-300 group-hover:scale-110"
+                  >
+                    {/* Outer 4-pointed Gemini star in carbon black */}
+                    <path
+                      d="M50 0C50 27.614 27.614 50 0 50C27.614 50 50 72.386 50 100C50 72.386 72.386 50 100 50C72.386 50 50 27.614 50 0Z"
+                      fill="currentColor"
+                    />
+                    {/* Inner 4-pointed star in lime yellow */}
+                    <path
+                      d="M50 30C50 41.046 41.046 50 30 50C41.046 50 50 58.954 50 70C50 58.954 58.954 50 70 50C58.954 50 50 41.046 50 30Z"
+                      fill="#d4ff00"
+                    />
+                    {/* Center floating pupil / iris dot */}
+                    <circle cx="50" cy="50" r="4" fill="currentColor" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </h1>
 
