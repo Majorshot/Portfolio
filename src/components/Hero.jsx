@@ -49,7 +49,8 @@ export default function Hero({ isLoaded = true }) {
     let loopTimeout = null;
     let isCancelled = false;
 
-    // Kinetic letter displacement animation (moves out in direction, instantly wraps to opposite side and snaps back)
+    // Weighted, premium letter displacement animation:
+    // Snaps out fast, then enters with heavy momentum: starts fast, smoothly decelerates, and calmly sits in place
     const animateLetter = (charEl) => {
       if (!charEl || charEl._isAnimating) return;
       charEl._isAnimating = true;
@@ -57,8 +58,11 @@ export default function Hero({ isLoaded = true }) {
       // Favor Down -> In from Top and Left -> In from Right as requested
       const MODES = [0, 1, 0, 1, 2, 3];
       const mode = MODES[Math.floor(Math.random() * MODES.length)];
-      const durOut = 0.21 + Math.random() * 0.05;
-      const durIn = 0.25 + Math.random() * 0.05;
+
+      // Snappy impulse out (0.17s) with power3.in
+      const durOut = 0.17;
+      // Weighted calm deceleration landing (0.62s) with power4.out: starts fast, long smooth deceleration, sits calmly
+      const durIn = 0.62;
 
       const tl = gsap.timeline({
         onComplete: () => {
@@ -67,25 +71,25 @@ export default function Hero({ isLoaded = true }) {
       });
 
       if (mode === 0) {
-        // Down -> In from Top ("I moves down and comes right after")
-        tl.to(charEl, { yPercent: 112, duration: durOut, ease: 'power2.in' })
-          .set(charEl, { yPercent: -112, xPercent: 0 })
-          .to(charEl, { yPercent: 0, duration: durIn, ease: 'power2.out' });
+        // Down -> In from Top ("I moves down and comes right after, starting fast, slowing down to sit calmly")
+        tl.to(charEl, { yPercent: 115, duration: durOut, ease: 'power3.in' })
+          .set(charEl, { yPercent: -115, xPercent: 0 })
+          .to(charEl, { yPercent: 0, duration: durIn, ease: 'power4.out' });
       } else if (mode === 1) {
         // Left -> In from Right ("D moves left and comes right after")
-        tl.to(charEl, { xPercent: -112, duration: durOut, ease: 'power2.in' })
-          .set(charEl, { xPercent: 112, yPercent: 0 })
-          .to(charEl, { xPercent: 0, duration: durIn, ease: 'power2.out' });
+        tl.to(charEl, { xPercent: -115, duration: durOut, ease: 'power3.in' })
+          .set(charEl, { xPercent: 115, yPercent: 0 })
+          .to(charEl, { xPercent: 0, duration: durIn, ease: 'power4.out' });
       } else if (mode === 2) {
         // Up -> In from Bottom
-        tl.to(charEl, { yPercent: -112, duration: durOut, ease: 'power2.in' })
-          .set(charEl, { yPercent: 112, xPercent: 0 })
-          .to(charEl, { yPercent: 0, duration: durIn, ease: 'power2.out' });
+        tl.to(charEl, { yPercent: -115, duration: durOut, ease: 'power3.in' })
+          .set(charEl, { yPercent: 115, xPercent: 0 })
+          .to(charEl, { yPercent: 0, duration: durIn, ease: 'power4.out' });
       } else {
         // Right -> In from Left
-        tl.to(charEl, { xPercent: 112, duration: durOut, ease: 'power2.in' })
-          .set(charEl, { xPercent: -112, yPercent: 0 })
-          .to(charEl, { xPercent: 0, duration: durIn, ease: 'power2.out' });
+        tl.to(charEl, { xPercent: 115, duration: durOut, ease: 'power3.in' })
+          .set(charEl, { xPercent: -115, yPercent: 0 })
+          .to(charEl, { xPercent: 0, duration: durIn, ease: 'power4.out' });
       }
     };
 
@@ -102,20 +106,20 @@ export default function Hero({ isLoaded = true }) {
       const chosen = available[Math.floor(Math.random() * available.length)];
       animateLetter(chosen);
 
-      // 30% chance of a staggered double flick (another letter moves just after)
-      if (Math.random() < 0.3 && available.length > 1) {
+      // 25% chance of a staggered double flick (another letter moves in a subtle ripple)
+      if (Math.random() < 0.25 && available.length > 1) {
         const remaining = available.filter((c) => c !== chosen);
         const second = remaining[Math.floor(Math.random() * remaining.length)];
         setTimeout(() => {
           if (!isCancelled) animateLetter(second);
-        }, 150);
+        }, 180);
       }
     };
 
     const startLetterLoop = () => {
       const schedule = () => {
         if (isCancelled) return;
-        const nextDelay = 1200 + Math.random() * 1800; // random 1.2s to 3s
+        const nextDelay = 1800 + Math.random() * 2000; // 1.8s to 3.8s for calm, unhurried rhythm
         loopTimeout = setTimeout(() => {
           triggerRandomLetter();
           schedule();
