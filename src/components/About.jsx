@@ -14,26 +14,6 @@ const ABOUT_LETTERS = [
   { char: 'E', group: 'me' },
 ];
 
-const STATS = [
-  { value: '3+', label: 'YEARS EXPERIENCE', desc: 'Full Stack Software Engineering' },
-  { value: '10+', label: 'PROJECTS BUILT', desc: 'Production web apps & client systems' },
-  { value: '4+', label: 'CLIENTS SERVED', desc: 'Custom freelance & contract delivery' },
-  { value: 'MERN', label: 'CORE STACK FOCUS', desc: 'MongoDB • Express • React • Node.js' },
-];
-
-const DISCIPLINES = [
-  {
-    title: 'FRONTEND & UI ENGINEERING',
-    tech: 'React.js • Tailwind CSS • HTML5 • CSS3 • JavaScript (ES6+) • Vite',
-    desc: 'Crafting responsive, high-performance web applications with modular components, fluid layouts, and polished user experiences.',
-  },
-  {
-    title: 'BACKEND & CLOUD INTEGRATIONS',
-    tech: 'Node.js • Express.js • MongoDB • Payment Gateways • Cloudinary • REST APIs',
-    desc: 'Engineering scalable server architectures, secure database schemas, seamless payment gateways (Stripe/Razorpay), and automated media delivery with Cloudinary.',
-  },
-];
-
 export default function About() {
   const containerRef = useRef(null);
   const pinRef = useRef(null);
@@ -48,42 +28,58 @@ export default function About() {
     const ctx = gsap.context(() => {
       let hasRevealedContent = false;
 
-      // Automatically reveal all content and run headline runner wipe without waiting for scroll
+      // Automatically reveal bento grid and run kinetic line animations
       const revealAboutContent = () => {
         if (hasRevealedContent) return;
         hasRevealedContent = true;
 
         const tl = gsap.timeline();
 
-        // 1. Show all about content automatically
+        // 1. Reveal content container
         tl.to(contentRef.current, {
           opacity: 1,
           y: 0,
-          duration: 0.45,
+          duration: 0.35,
           ease: 'power3.out',
         })
-        // 2. Automatically play the headline runner block animation at natural speed
+        // 2. Bento cards stagger in with smooth lift
         .fromTo(
-          '.about-reveal-block',
-          { xPercent: -101, opacity: 1 },
+          '.bento-card',
+          { opacity: 0, y: 16 },
           {
-            xPercent: 0,
-            duration: 0.38,
-            ease: 'power3.inOut',
+            opacity: 1,
+            y: 0,
+            duration: 0.45,
+            stagger: 0.08,
+            ease: 'power3.out',
           },
           '-=0.15'
         )
-        .set('.about-reveal-text', { opacity: 1 }, '-=0.1')
-        .to(
-          '.about-reveal-block',
+        // 3. Kinetic neon line draws across the top border of each bento box!
+        .fromTo(
+          '.bento-accent-line',
+          { scaleX: 0 },
           {
-            xPercent: 101,
-            duration: 0.38,
+            scaleX: 1,
+            duration: 0.65,
+            stagger: 0.08,
             ease: 'power3.inOut',
           },
-          '-=0.08'
+          '-=0.4'
         )
-        .set('.about-reveal-block', { opacity: 0 });
+        // 4. Metric numbers pop in with punchy physics
+        .fromTo(
+          '.bento-stat-num',
+          { scale: 0.75, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.06,
+            ease: 'back.out(1.8)',
+          },
+          '-=0.45'
+        );
       };
 
       // Function to calculate exact coordinates from vertical center stack to horizontal header
@@ -137,8 +133,9 @@ export default function About() {
         opacity: 0,
         y: 25,
       });
-      gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
-      gsap.set('.about-reveal-text', { opacity: 0 });
+      gsap.set('.bento-card', { opacity: 0, y: 16 });
+      gsap.set('.bento-accent-line', { scaleX: 0 });
+      gsap.set('.bento-stat-num', { scale: 0.75, opacity: 0 });
 
       // 2. Master Scrub Timeline for Letter Unspooling:
       // Pinned for responsive scroll, unspools letters to top header
@@ -159,8 +156,9 @@ export default function About() {
               // Reset if user scrolls back up into Hero
               hasRevealedContent = false;
               gsap.set(contentRef.current, { opacity: 0, y: 25 });
-              gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
-              gsap.set('.about-reveal-text', { opacity: 0 });
+              gsap.set('.bento-card', { opacity: 0, y: 16 });
+              gsap.set('.bento-accent-line', { scaleX: 0 });
+              gsap.set('.bento-stat-num', { scale: 0.75, opacity: 0 });
             }
           },
         },
@@ -267,87 +265,175 @@ export default function About() {
         </div>
 
         {/* 
-          FULL UNVEILED CONTENT UNDERNEATH:
-          Shows fully and automatically the moment "ABOUT ME" settles at the top
+          BENTO BOX GRID:
+          Clean, spacious, employer-focused layout with kinetic neon line animations
         */}
         <div
           ref={contentRef}
-          className="relative z-20 w-full max-w-6xl mx-auto flex flex-col justify-start gap-3.5 sm:gap-5 mt-2.5 sm:mt-4"
+          className="relative z-20 w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mt-2.5 sm:mt-4"
         >
-          {/* Headline with Automatic Signature Block Runner Wipe */}
-          <div className="w-full flex flex-col items-start gap-1">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 bg-[#d4ff00]" />
-              <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00] font-bold">
-                SOFTWARE ENGINEER • FULL STACK MERN
-              </span>
-            </div>
+          {/* Card 1: Role & Identity */}
+          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+            {/* Kinetic Neon Line at Top Border */}
+            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
             
-            <div className="relative inline-block overflow-hidden max-w-3xl">
-              <h3 className="about-reveal-text text-sm sm:text-xl md:text-2xl font-black uppercase text-[#f4f4f5] tracking-tight leading-snug">
-                ARCHITECTING MODERN MERN WEB APPS WITH SEAMLESS USER EXPERIENCES
+            <div>
+              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-2">
+                <span>[ 01 // PROFILE ]</span>
+                <span className="flex items-center gap-1.5 text-[#d4ff00] font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
+                  OPEN FOR ROLES
+                </span>
+              </div>
+              <h3
+                className="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-tight text-white mb-2"
+                style={{ fontFamily: "'Anton', sans-serif" }}
+              >
+                FULL STACK MERN DEVELOPER
               </h3>
-              <span className="about-reveal-block absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform" />
+              <p className="text-[11px] sm:text-xs text-[#f4f4f5]/75 leading-relaxed font-mono">
+                Software Engineer with 3 years of experience developing production web applications from Kerala, India. Dedicated to crafting fluid, responsive frontends and resilient, secure backends.
+              </p>
             </div>
 
-            <p className="text-[11px] sm:text-xs md:text-sm text-[#f4f4f5]/80 max-w-3xl leading-relaxed font-mono">
-              Hi, I&apos;m Midhun Mohan — a Full Stack Software Engineer from Kerala with 3 years of hands-on experience building production web applications. I specialize in the MERN stack (MongoDB, Express.js, React, Node.js), engineering responsive interfaces with Tailwind CSS, secure payment gateway integrations, Cloudinary media pipelines, and high-performance REST APIs.
-            </p>
+            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
+              <span>LOCATION: KERALA, IN</span>
+              <span className="text-[#d4ff00]">AVAILABLE IMMEDIATELY</span>
+            </div>
           </div>
 
-          {/* Real Bento Stats Grid */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3.5 w-full">
-            {STATS.map((stat, idx) => (
-              <div
-                key={idx}
-                className="bg-[#181a1f] border border-white/5 hover:border-[#d4ff00]/40 p-2.5 sm:p-3.5 rounded-sm flex flex-col justify-between transition-colors duration-300 group"
-              >
-                <div className="flex items-baseline justify-between mb-1">
+          {/* Card 2: Proven Impact / Verified Metrics */}
+          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+            {/* Kinetic Neon Line at Top Border */}
+            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+
+            <div>
+              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-3">
+                <span>[ 02 // TRACK RECORD ]</span>
+                <span className="text-white/40">VERIFIED METRICS</span>
+              </div>
+
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 items-center py-1">
+                {/* Metric 1 */}
+                <div className="flex flex-col">
                   <span
-                    className="text-xl sm:text-3xl font-black text-[#d4ff00] font-anton tracking-tight group-hover:scale-105 transition-transform"
+                    className="bento-stat-num text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none mb-1"
                     style={{ fontFamily: "'Anton', sans-serif" }}
                   >
-                    {stat.value}
+                    3+
                   </span>
-                  <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest">
-                    #{String(idx + 1).padStart(2, '0')}
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase text-white font-bold tracking-wider">
+                    YEARS EXP
                   </span>
+                  <span className="text-[8px] font-mono text-white/40 uppercase">Production</span>
                 </div>
-                <div>
-                  <h4 className="text-[10px] sm:text-xs font-bold font-mono tracking-wider text-white uppercase mb-0.5">
-                    {stat.label}
-                  </h4>
-                  <p className="text-[9px] sm:text-[10px] text-white/50 leading-tight">
-                    {stat.desc}
-                  </p>
+
+                {/* Metric 2 */}
+                <div className="flex flex-col border-x border-white/10 px-2 sm:px-4">
+                  <span
+                    className="bento-stat-num text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none mb-1"
+                    style={{ fontFamily: "'Anton', sans-serif" }}
+                  >
+                    10+
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase text-white font-bold tracking-wider">
+                    PROJECTS
+                  </span>
+                  <span className="text-[8px] font-mono text-white/40 uppercase">Full Apps</span>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="flex flex-col">
+                  <span
+                    className="bento-stat-num text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none mb-1"
+                    style={{ fontFamily: "'Anton', sans-serif" }}
+                  >
+                    4+
+                  </span>
+                  <span className="text-[9px] sm:text-[10px] font-mono uppercase text-white font-bold tracking-wider">
+                    CLIENTS
+                  </span>
+                  <span className="text-[8px] font-mono text-white/40 uppercase">Satisfied</span>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
+              <span>SPECIALTY: MERN STACK</span>
+              <span className="text-[#d4ff00]">100% DELIVERY</span>
+            </div>
           </div>
 
-          {/* Real Disciplines & Tech Arsenal */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3.5 w-full">
-            {DISCIPLINES.map((disc, idx) => (
-              <div
-                key={idx}
-                className="bg-[#181a1f] border border-white/5 p-3 sm:p-3.5 rounded-sm flex flex-col justify-between hover:border-[#d4ff00]/30 transition-colors"
-              >
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="w-1.5 h-1.5 bg-[#d4ff00]" />
-                    <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#d4ff00] font-mono">
-                      {disc.title}
-                    </h4>
-                  </div>
-                  <p className="text-[10px] sm:text-xs text-[#f4f4f5]/80 leading-relaxed mb-1.5 font-mono">
-                    {disc.desc}
-                  </p>
-                </div>
-                <div className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#d4ff00]/70 uppercase pt-1.5 border-t border-white/5">
-                  {disc.tech}
-                </div>
+          {/* Card 3: Core Tech Arsenal */}
+          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+            {/* Kinetic Neon Line at Top Border */}
+            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+
+            <div>
+              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-2.5">
+                <span>[ 03 // TECH ARSENAL ]</span>
+                <span className="text-white/40">PRODUCTION READY</span>
               </div>
-            ))}
+
+              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                {[
+                  'React.js',
+                  'Node.js',
+                  'Express.js',
+                  'MongoDB',
+                  'Tailwind CSS',
+                  'Payment Gateways',
+                  'Cloudinary',
+                  'REST APIs',
+                  'Vite',
+                ].map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2.5 py-1 bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-[#f4f4f5]/90 hover:border-[#d4ff00]/50 hover:text-[#d4ff00] hover:bg-[#d4ff00]/5 transition-colors cursor-default"
+                  >
+                    {tech}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
+              <span>ARCHITECTURE: MVC & MODULAR</span>
+              <span className="text-[#d4ff00]">CLEAN CODE</span>
+            </div>
+          </div>
+
+          {/* Card 4: What an Employer Gets / Core Deliverables */}
+          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+            {/* Kinetic Neon Line at Top Border */}
+            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+
+            <div>
+              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-2.5">
+                <span>[ 04 // VALUE DELIVERED ]</span>
+                <span className="text-white/40">KEY CAPABILITIES</span>
+              </div>
+
+              <ul className="space-y-1.5 sm:space-y-2 text-[10px] sm:text-xs font-mono text-[#f4f4f5]/85">
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-[#d4ff00] shrink-0 mt-1" />
+                  <span>Fluid, high-performance React UIs styled with Tailwind CSS.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-[#d4ff00] shrink-0 mt-1" />
+                  <span>Secure payment gateways (Stripe/Razorpay) & Cloudinary media automation.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 bg-[#d4ff00] shrink-0 mt-1" />
+                  <span>Robust RESTful APIs, JWT authentication & optimized MongoDB schemas.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
+              <span>SPEED: RAPID DEPLOYMENT</span>
+              <span className="text-[#d4ff00]">PRODUCTION TESTED</span>
+            </div>
           </div>
         </div>
       </div>
