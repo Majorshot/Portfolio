@@ -79,20 +79,35 @@ export default function About() {
         )
         .set('.bento-runner-3', { opacity: 0 });
 
-        // 4. BOX 4: Runner block wipes RIGHT -> LEFT
+        // 4. BOX 4: Runner block wipes LEFT -> RIGHT
         tl.fromTo(
           '.bento-runner-4',
-          { xPercent: 101, opacity: 1, x: 0, y: 0 },
+          { xPercent: -101, opacity: 1, x: 0, y: 0 },
           { xPercent: 0, duration: 0.36, ease: 'power3.inOut' },
           '-=0.22'
         )
         .set('.bento-box-4', { opacity: 1 }, '-=0.1')
         .to(
           '.bento-runner-4',
-          { xPercent: -101, duration: 0.36, ease: 'power3.inOut' },
+          { xPercent: 101, duration: 0.36, ease: 'power3.inOut' },
           '-=0.08'
         )
         .set('.bento-runner-4', { opacity: 0 });
+
+        // 5. BOX 5: Runner block wipes RIGHT -> LEFT
+        tl.fromTo(
+          '.bento-runner-5',
+          { xPercent: 101, opacity: 1, x: 0, y: 0 },
+          { xPercent: 0, duration: 0.36, ease: 'power3.inOut' },
+          '-=0.22'
+        )
+        .set('.bento-box-5', { opacity: 1 }, '-=0.1')
+        .to(
+          '.bento-runner-5',
+          { xPercent: -101, duration: 0.36, ease: 'power3.inOut' },
+          '-=0.08'
+        )
+        .set('.bento-runner-5', { opacity: 0 });
       };
 
       // Function to calculate exact coordinates from vertical center stack to horizontal header
@@ -143,11 +158,12 @@ export default function About() {
 
       // Hide boxes and park runner blocks initially
       gsap.set(contentRef.current, { opacity: 1 });
-      gsap.set(['.bento-box-1', '.bento-box-2', '.bento-box-3', '.bento-box-4'], { opacity: 0 });
+      gsap.set(['.bento-box-1', '.bento-box-2', '.bento-box-3', '.bento-box-4', '.bento-box-5'], { opacity: 0 });
       gsap.set('.bento-runner-1', { xPercent: -101, opacity: 0, x: 0, y: 0 });
       gsap.set('.bento-runner-2', { yPercent: -101, opacity: 0, x: 0, y: 0 });
       gsap.set('.bento-runner-3', { yPercent: 101, opacity: 0, x: 0, y: 0 });
-      gsap.set('.bento-runner-4', { xPercent: 101, opacity: 0, x: 0, y: 0 });
+      gsap.set('.bento-runner-4', { xPercent: -101, opacity: 0, x: 0, y: 0 });
+      gsap.set('.bento-runner-5', { xPercent: 101, opacity: 0, x: 0, y: 0 });
 
       // 2. Master Scrub Timeline for Letter Unspooling:
       // Pinned for responsive scroll, unspools letters to top header
@@ -167,11 +183,12 @@ export default function About() {
             } else if (self.progress < 0.20) {
               // Reset if user scrolls back up into Hero
               hasRevealedContent = false;
-              gsap.set(['.bento-box-1', '.bento-box-2', '.bento-box-3', '.bento-box-4'], { opacity: 0 });
+              gsap.set(['.bento-box-1', '.bento-box-2', '.bento-box-3', '.bento-box-4', '.bento-box-5'], { opacity: 0 });
               gsap.set('.bento-runner-1', { xPercent: -101, opacity: 0, x: 0, y: 0 });
               gsap.set('.bento-runner-2', { yPercent: -101, opacity: 0, x: 0, y: 0 });
               gsap.set('.bento-runner-3', { yPercent: 101, opacity: 0, x: 0, y: 0 });
-              gsap.set('.bento-runner-4', { xPercent: 101, opacity: 0, x: 0, y: 0 });
+              gsap.set('.bento-runner-4', { xPercent: -101, opacity: 0, x: 0, y: 0 });
+              gsap.set('.bento-runner-5', { xPercent: 101, opacity: 0, x: 0, y: 0 });
             }
           },
         },
@@ -222,17 +239,8 @@ export default function About() {
       {/* Pinned Viewport Container */}
       <div
         ref={pinRef}
-        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-20 sm:pt-24 pb-12 select-none"
+        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-16 sm:pt-20 pb-12 select-none"
       >
-        {/* Top Technical Metadata Track */}
-        <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-3">
-          <span>[ 01 // KERALA, INDIA ]</span>
-          <span className="flex items-center gap-2 text-[#d4ff00]">
-            <span className="w-2 h-2 rounded-none bg-[#d4ff00] animate-pulse" />
-            OPEN FOR FULL-TIME & FREELANCE
-          </span>
-        </div>
-
         {/* 
           HORIZONTAL DOCKED HEADER AT THE TOP:
           Letters start stacked vertically in screen center (all letters upright),
@@ -279,11 +287,11 @@ export default function About() {
 
         {/* 
           AUTHENTIC BENTO BOX GRID:
-          Minimalist, asymmetric, sharp-edged cards with 4-directional kinetic lime runner block wipes
+          Minimalist, asymmetric, sharp-edged cards with 5-directional kinetic lime runner block wipes
         */}
         <div
           ref={contentRef}
-          className="relative z-20 w-full max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3.5 mt-2.5 sm:mt-4"
+          className="relative z-20 w-full max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3.5 mt-2.5 sm:mt-3"
         >
           {/* Tile 1: Role & Core Identity (Wide: 2 cols on mobile, 2 cols on desktop) */}
           {/* Direction: Left to Right */}
@@ -391,7 +399,7 @@ export default function About() {
           </div>
 
           {/* Tile 4: Core Tech Stack (Wide: 2 cols on mobile, 2 cols on desktop) */}
-          {/* Direction: Right to Left */}
+          {/* Direction: Left to Right */}
           <div className="relative overflow-hidden rounded-none col-span-2 md:col-span-2">
             <div
               className="bento-box-4 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-none p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
@@ -419,9 +427,49 @@ export default function About() {
               </div>
             </div>
 
-            {/* Runner block wipes across the entire box Right -> Left */}
+            {/* Runner block wipes across the entire box Left -> Right */}
             <span
               className="bento-runner-4 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-none"
+              style={{ transform: 'translateX(-101%)', opacity: 0 }}
+            />
+          </div>
+
+          {/* Tile 5: Capabilities & Deliverables (Wide: 2 cols on mobile, 2 cols on desktop) */}
+          {/* Direction: Right to Left */}
+          <div className="relative overflow-hidden rounded-none col-span-2 md:col-span-2">
+            <div
+              className="bento-box-5 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-none p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              style={{ opacity: 0 }}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// DELIVERABLES</span>
+                <span className="text-[8px] font-mono text-[#d4ff00] uppercase font-bold">PRODUCTION TESTED</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-mono text-[#f4f4f5]/85">
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-[#d4ff00] rounded-none shrink-0" />
+                  <span>Responsive UI & State</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-[#d4ff00] rounded-none shrink-0" />
+                  <span>Stripe & Cloudinary APIs</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 bg-[#d4ff00] rounded-none shrink-0" />
+                  <span>REST APIs & MongoDB</span>
+                </div>
+              </div>
+
+              <div className="mt-2 pt-1.5 border-t border-white/5 flex items-center justify-between text-[8px] font-mono uppercase text-white/30">
+                <span>FOCUS: SCALABILITY & SPEED</span>
+                <span className="text-[#d4ff00]">END-TO-END</span>
+              </div>
+            </div>
+
+            {/* Runner block wipes across the entire box Right -> Left */}
+            <span
+              className="bento-runner-5 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-none"
               style={{ transform: 'translateX(101%)', opacity: 0 }}
             />
           </div>

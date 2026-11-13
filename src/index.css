@@ -82,7 +82,8 @@ body {
 .bento-box-1,
 .bento-box-2,
 .bento-box-3,
-.bento-box-4 {
+.bento-box-4,
+.bento-box-5 {
   opacity: 0;
 }
 
@@ -102,6 +103,11 @@ body {
 }
 
 .bento-runner-4 {
+  transform: translateX(-101%);
+  opacity: 0;
+}
+
+.bento-runner-5 {
   transform: translateX(101%);
   opacity: 0;
 }
