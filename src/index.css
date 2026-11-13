@@ -1,1 +1,70 @@
 @import "tailwindcss";
+
+@theme {
+  --color-carbon: #121316;
+  --color-lime: #d4ff00;
+
+  --font-anton: 'Anton', sans-serif;
+  --font-space: 'Space Grotesk', sans-serif;
+  --font-mono-tech: 'Space Mono', monospace;
+}
+
+:root {
+  --bg-carbon: #121316;
+  --accent-lime: #d4ff00;
+}
+
+/* Mobile-First Standards */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  background-color: #121316;
+  color: #f4f4f5;
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Tactile Grain Noise Overlay - gives that rich, velvety graphite texture */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background-color: #d4ff00;
+  color: #121316;
+}
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Initial parked state for Hero reveal blocks - eliminates split-second flash */
+.hero-reveal-block {
+  transform: translateX(-105%);
+}
+
+.hero-reveal-text {
+  opacity: 0;
+}
