@@ -42,22 +42,22 @@ export default function About() {
           duration: 0.35,
           ease: 'power3.out',
         })
-        // 2. Bento cards stagger in with smooth lift
+        // 2. Bento tiles stagger in with smooth lift
         .fromTo(
-          '.bento-card',
-          { opacity: 0, y: 16 },
+          '.bento-tile',
+          { opacity: 0, y: 15 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.45,
+            duration: 0.4,
             stagger: 0.08,
             ease: 'power3.out',
           },
           '-=0.15'
         )
-        // 3. Kinetic neon line draws across the top border of each bento box!
+        // 3. Kinetic neon lines draw across each bento tile
         .fromTo(
-          '.bento-accent-line',
+          '.bento-line',
           { scaleX: 0 },
           {
             scaleX: 1,
@@ -65,16 +65,16 @@ export default function About() {
             stagger: 0.08,
             ease: 'power3.inOut',
           },
-          '-=0.4'
+          '-=0.35'
         )
         // 4. Metric numbers pop in with punchy physics
         .fromTo(
-          '.bento-stat-num',
+          '.bento-stat',
           { scale: 0.75, opacity: 0 },
           {
             scale: 1,
             opacity: 1,
-            duration: 0.4,
+            duration: 0.35,
             stagger: 0.06,
             ease: 'back.out(1.8)',
           },
@@ -131,11 +131,11 @@ export default function About() {
       // Hide content initially
       gsap.set(contentRef.current, {
         opacity: 0,
-        y: 25,
+        y: 20,
       });
-      gsap.set('.bento-card', { opacity: 0, y: 16 });
-      gsap.set('.bento-accent-line', { scaleX: 0 });
-      gsap.set('.bento-stat-num', { scale: 0.75, opacity: 0 });
+      gsap.set('.bento-tile', { opacity: 0, y: 15 });
+      gsap.set('.bento-line', { scaleX: 0 });
+      gsap.set('.bento-stat', { scale: 0.75, opacity: 0 });
 
       // 2. Master Scrub Timeline for Letter Unspooling:
       // Pinned for responsive scroll, unspools letters to top header
@@ -155,10 +155,10 @@ export default function About() {
             } else if (self.progress < 0.20) {
               // Reset if user scrolls back up into Hero
               hasRevealedContent = false;
-              gsap.set(contentRef.current, { opacity: 0, y: 25 });
-              gsap.set('.bento-card', { opacity: 0, y: 16 });
-              gsap.set('.bento-accent-line', { scaleX: 0 });
-              gsap.set('.bento-stat-num', { scale: 0.75, opacity: 0 });
+              gsap.set(contentRef.current, { opacity: 0, y: 20 });
+              gsap.set('.bento-tile', { opacity: 0, y: 15 });
+              gsap.set('.bento-line', { scaleX: 0 });
+              gsap.set('.bento-stat', { scale: 0.75, opacity: 0 });
             }
           },
         },
@@ -265,174 +265,115 @@ export default function About() {
         </div>
 
         {/* 
-          BENTO BOX GRID:
-          Clean, spacious, employer-focused layout with kinetic neon line animations
+          AUTHENTIC BENTO BOX GRID:
+          Minimalist, asymmetric, high-impact cards with kinetic neon line draw
         */}
         <div
           ref={contentRef}
-          className="relative z-20 w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 mt-2.5 sm:mt-4"
+          className="relative z-20 w-full max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-3 gap-2.5 sm:gap-3.5 mt-2.5 sm:mt-4"
         >
-          {/* Card 1: Role & Identity */}
-          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+          {/* Tile 1: Role & Core Identity (Wide: 2 cols on mobile, 2 cols on desktop) */}
+          <div className="bento-tile col-span-2 md:col-span-2 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
             {/* Kinetic Neon Line at Top Border */}
-            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+            <div className="bento-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform rounded-t-2xl" />
             
             <div>
-              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-2">
-                <span>[ 01 // PROFILE ]</span>
-                <span className="flex items-center gap-1.5 text-[#d4ff00] font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-                  OPEN FOR ROLES
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-[#d4ff00] uppercase flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-[#d4ff00] animate-pulse" />
+                  FULL STACK MERN DEVELOPER
                 </span>
+                <span className="text-[10px] font-mono text-white/40 uppercase">KERALA, INDIA</span>
               </div>
               <h3
-                className="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-tight text-white mb-2"
+                className="text-lg sm:text-2xl font-black uppercase tracking-tight text-white leading-tight mb-1.5"
                 style={{ fontFamily: "'Anton', sans-serif" }}
               >
-                FULL STACK MERN DEVELOPER
+                CRAFTING HIGH-PERFORMANCE WEB APPLICATIONS
               </h3>
-              <p className="text-[11px] sm:text-xs text-[#f4f4f5]/75 leading-relaxed font-mono">
-                Software Engineer with 3 years of experience developing production web applications from Kerala, India. Dedicated to crafting fluid, responsive frontends and resilient, secure backends.
+              <p className="text-[11px] sm:text-xs text-[#f4f4f5]/70 font-mono leading-relaxed">
+                3 years building production web apps with React & Node.js. Focused on fluid user experiences, payment gateways, and scalable architectures.
               </p>
             </div>
 
-            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
-              <span>LOCATION: KERALA, IN</span>
-              <span className="text-[#d4ff00]">AVAILABLE IMMEDIATELY</span>
+            <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+              <span className="px-2.5 py-0.5 rounded-full bg-[#d4ff00]/10 border border-[#d4ff00]/30 text-[#d4ff00] text-[10px] font-mono font-bold uppercase tracking-wider">
+                3+ YEARS EXP
+              </span>
+              <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/60 text-[10px] font-mono uppercase tracking-wider">
+                AVAILABLE FOR HIRE
+              </span>
             </div>
           </div>
 
-          {/* Card 2: Proven Impact / Verified Metrics */}
-          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+          {/* Tile 2: Projects Metric (Square: 1 col on mobile, 1 col on desktop) */}
+          <div className="bento-tile col-span-1 md:col-span-1 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
             {/* Kinetic Neon Line at Top Border */}
-            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+            <div className="bento-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform rounded-t-2xl" />
 
-            <div>
-              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-3">
-                <span>[ 02 // TRACK RECORD ]</span>
-                <span className="text-white/40">VERIFIED METRICS</span>
-              </div>
-
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 items-center py-1">
-                {/* Metric 1 */}
-                <div className="flex flex-col">
-                  <span
-                    className="bento-stat-num text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none mb-1"
-                    style={{ fontFamily: "'Anton', sans-serif" }}
-                  >
-                    3+
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-mono uppercase text-white font-bold tracking-wider">
-                    YEARS EXP
-                  </span>
-                  <span className="text-[8px] font-mono text-white/40 uppercase">Production</span>
-                </div>
-
-                {/* Metric 2 */}
-                <div className="flex flex-col border-x border-white/10 px-2 sm:px-4">
-                  <span
-                    className="bento-stat-num text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none mb-1"
-                    style={{ fontFamily: "'Anton', sans-serif" }}
-                  >
-                    10+
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-mono uppercase text-white font-bold tracking-wider">
-                    PROJECTS
-                  </span>
-                  <span className="text-[8px] font-mono text-white/40 uppercase">Full Apps</span>
-                </div>
-
-                {/* Metric 3 */}
-                <div className="flex flex-col">
-                  <span
-                    className="bento-stat-num text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none mb-1"
-                    style={{ fontFamily: "'Anton', sans-serif" }}
-                  >
-                    4+
-                  </span>
-                  <span className="text-[9px] sm:text-[10px] font-mono uppercase text-white font-bold tracking-wider">
-                    CLIENTS
-                  </span>
-                  <span className="text-[8px] font-mono text-white/40 uppercase">Satisfied</span>
-                </div>
+            <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// SHIPPED</span>
+            
+            <div className="my-1">
+              <span
+                className="bento-stat text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none inline-block"
+                style={{ fontFamily: "'Anton', sans-serif" }}
+              >
+                10+
+              </span>
+              <div className="text-[10px] sm:text-xs font-mono font-bold uppercase text-white tracking-wider mt-1">
+                PROJECTS BUILT
               </div>
             </div>
 
-            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
-              <span>SPECIALTY: MERN STACK</span>
-              <span className="text-[#d4ff00]">100% DELIVERY</span>
-            </div>
+            <span className="text-[9px] font-mono text-[#d4ff00]/70 uppercase">Production Apps</span>
           </div>
 
-          {/* Card 3: Core Tech Arsenal */}
-          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+          {/* Tile 3: Clients Metric (Square: 1 col on mobile, 1 col on desktop) */}
+          <div className="bento-tile col-span-1 md:col-span-1 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
             {/* Kinetic Neon Line at Top Border */}
-            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+            <div className="bento-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform rounded-t-2xl" />
 
-            <div>
-              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-2.5">
-                <span>[ 03 // TECH ARSENAL ]</span>
-                <span className="text-white/40">PRODUCTION READY</span>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                {[
-                  'React.js',
-                  'Node.js',
-                  'Express.js',
-                  'MongoDB',
-                  'Tailwind CSS',
-                  'Payment Gateways',
-                  'Cloudinary',
-                  'REST APIs',
-                  'Vite',
-                ].map((tech) => (
-                  <span
-                    key={tech}
-                    className="px-2.5 py-1 bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-[#f4f4f5]/90 hover:border-[#d4ff00]/50 hover:text-[#d4ff00] hover:bg-[#d4ff00]/5 transition-colors cursor-default"
-                  >
-                    {tech}
-                  </span>
-                ))}
+            <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// CLIENTS</span>
+            
+            <div className="my-1">
+              <span
+                className="bento-stat text-3xl sm:text-4xl md:text-5xl font-black text-[#d4ff00] leading-none inline-block"
+                style={{ fontFamily: "'Anton', sans-serif" }}
+              >
+                4+
+              </span>
+              <div className="text-[10px] sm:text-xs font-mono font-bold uppercase text-white tracking-wider mt-1">
+                HAPPY CLIENTS
               </div>
             </div>
 
-            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
-              <span>ARCHITECTURE: MVC & MODULAR</span>
-              <span className="text-[#d4ff00]">CLEAN CODE</span>
-            </div>
+            <span className="text-[9px] font-mono text-[#d4ff00]/70 uppercase">Freelance & Contract</span>
           </div>
 
-          {/* Card 4: What an Employer Gets / Core Deliverables */}
-          <div className="bento-card relative overflow-hidden bg-[#16181d] border border-white/5 p-4 sm:p-5 rounded-none flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
+          {/* Tile 4: Core Tech Stack (Wide: 2 cols on mobile, 2 cols on desktop) */}
+          <div className="bento-tile col-span-2 md:col-span-2 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
             {/* Kinetic Neon Line at Top Border */}
-            <div className="bento-accent-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform" />
+            <div className="bento-line absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d4ff00] via-[#d4ff00]/80 to-transparent origin-left scale-x-0 will-change-transform rounded-t-2xl" />
 
-            <div>
-              <div className="flex items-center justify-between text-[9px] font-mono tracking-widest text-[#d4ff00]/70 uppercase mb-2.5">
-                <span>[ 04 // VALUE DELIVERED ]</span>
-                <span className="text-white/40">KEY CAPABILITIES</span>
-              </div>
-
-              <ul className="space-y-1.5 sm:space-y-2 text-[10px] sm:text-xs font-mono text-[#f4f4f5]/85">
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#d4ff00] shrink-0 mt-1" />
-                  <span>Fluid, high-performance React UIs styled with Tailwind CSS.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#d4ff00] shrink-0 mt-1" />
-                  <span>Secure payment gateways (Stripe/Razorpay) & Cloudinary media automation.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="w-1.5 h-1.5 bg-[#d4ff00] shrink-0 mt-1" />
-                  <span>Robust RESTful APIs, JWT authentication & optimized MongoDB schemas.</span>
-                </li>
-              </ul>
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// CORE ARSENAL</span>
+              <span className="text-[8px] font-mono text-[#d4ff00] uppercase font-bold">MERN STACK</span>
             </div>
 
-            <div className="mt-3 pt-2.5 border-t border-white/5 flex items-center justify-between text-[9px] font-mono uppercase tracking-wider text-white/40">
-              <span>SPEED: RAPID DEPLOYMENT</span>
-              <span className="text-[#d4ff00]">PRODUCTION TESTED</span>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
+              {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind', 'Payment Gateways', 'Cloudinary', 'REST APIs'].map((tech) => (
+                <span
+                  key={tech}
+                  className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-[#f4f4f5]/90 hover:border-[#d4ff00]/50 hover:text-[#d4ff00] hover:bg-[#d4ff00]/5 transition-colors cursor-default"
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-2 pt-1.5 border-t border-white/5 flex items-center justify-between text-[8px] font-mono uppercase text-white/30">
+              <span>CLEAN CODE & MODULAR ARCHITECTURE</span>
+              <span className="text-[#d4ff00]">FAST DEPLOYMENT</span>
             </div>
           </div>
         </div>
