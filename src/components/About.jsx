@@ -135,30 +135,30 @@ export default function About() {
       // Hide content initially
       gsap.set(contentRef.current, {
         opacity: 0,
-        y: 30,
+        y: 25,
       });
       gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
       gsap.set('.about-reveal-text', { opacity: 0 });
 
       // 2. Master Scrub Timeline for Letter Unspooling:
-      // Pinned for a short, responsive distance (85vh), unspools letters to top
+      // Pinned for responsive scroll, unspools letters to top header
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: '+=85%',
+          end: '+=75%',
           pin: pinRef.current,
-          scrub: 0.6,
+          scrub: 0.4,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            // ONLY reveal when ALL letters have 100% reached their docked horizontal positions at the top
-            if (self.progress >= 0.95) {
+            // The EXACT moment "ABOUT ME" settles at the top, reveal all content automatically
+            if (self.progress >= 0.55) {
               revealAboutContent();
-            } else if (self.progress < 0.88) {
-              // Strictly hide content while letters are in motion so there is zero overlap
+            } else if (self.progress < 0.20) {
+              // Reset if user scrolls back up into Hero
               hasRevealedContent = false;
-              gsap.set(contentRef.current, { opacity: 0, y: 30 });
+              gsap.set(contentRef.current, { opacity: 0, y: 25 });
               gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
               gsap.set('.about-reveal-text', { opacity: 0 });
             }
@@ -167,6 +167,7 @@ export default function About() {
       });
 
       // Letters unspool from vertical stack and settle horizontally into the top header
+      // Letter 0 to Letter 6 complete unspooling by t = 0.56
       lettersRef.current.forEach((el, i) => {
         if (!el) return;
         masterTl.to(
@@ -175,12 +176,15 @@ export default function About() {
             x: 0,
             y: 0,
             scale: 1,
-            duration: 0.6,
-            ease: 'power3.inOut',
+            duration: 0.44,
+            ease: 'power2.out',
           },
-          i * 0.04
+          i * 0.02
         );
       });
+
+      // Hold window (t = 0.56 to 1.0) so the revealed content can be viewed comfortably while pinned
+      masterTl.to({}, { duration: 0.44 });
 
       // Recalculate positions on window resize
       ScrollTrigger.addEventListener('refreshInit', () => {
