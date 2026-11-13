@@ -228,7 +228,7 @@ export default function About() {
         <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-3">
           <span>[ 01 // KERALA, INDIA ]</span>
           <span className="flex items-center gap-2 text-[#d4ff00]">
-            <span className="w-2 h-2 rounded-full bg-[#d4ff00] animate-pulse" />
+            <span className="w-2 h-2 rounded-none bg-[#d4ff00] animate-pulse" />
             OPEN FOR FULL-TIME & FREELANCE
           </span>
         </div>
@@ -279,7 +279,7 @@ export default function About() {
 
         {/* 
           AUTHENTIC BENTO BOX GRID:
-          Minimalist, asymmetric, high-impact cards with 4-directional kinetic lime runner block wipes
+          Minimalist, asymmetric, sharp-edged cards with 4-directional kinetic lime runner block wipes
         */}
         <div
           ref={contentRef}
@@ -287,15 +287,15 @@ export default function About() {
         >
           {/* Tile 1: Role & Core Identity (Wide: 2 cols on mobile, 2 cols on desktop) */}
           {/* Direction: Left to Right */}
-          <div className="relative overflow-hidden rounded-2xl col-span-2 md:col-span-2">
+          <div className="relative overflow-hidden rounded-none col-span-2 md:col-span-2">
             <div
-              className="bento-box-1 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              className="bento-box-1 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-none p-4 sm:p-5 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
               style={{ opacity: 0 }}
             >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-[#d4ff00] uppercase flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#d4ff00] animate-pulse" />
+                    <span className="w-2 h-2 rounded-none bg-[#d4ff00] animate-pulse" />
                     FULL STACK MERN DEVELOPER
                   </span>
                   <span className="text-[10px] font-mono text-white/40 uppercase">KERALA, INDIA</span>
@@ -312,10 +312,10 @@ export default function About() {
               </div>
 
               <div className="flex items-center gap-2 mt-2.5 flex-wrap">
-                <span className="px-2.5 py-0.5 rounded-full bg-[#d4ff00]/10 border border-[#d4ff00]/30 text-[#d4ff00] text-[10px] font-mono font-bold uppercase tracking-wider">
+                <span className="px-2.5 py-0.5 rounded-none bg-[#d4ff00]/10 border border-[#d4ff00]/30 text-[#d4ff00] text-[10px] font-mono font-bold uppercase tracking-wider">
                   3+ YEARS EXP
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/60 text-[10px] font-mono uppercase tracking-wider">
+                <span className="px-2.5 py-0.5 rounded-none bg-white/5 border border-white/10 text-white/60 text-[10px] font-mono uppercase tracking-wider">
                   AVAILABLE FOR HIRE
                 </span>
               </div>
@@ -323,16 +323,16 @@ export default function About() {
 
             {/* Runner block wipes across the entire box Left -> Right */}
             <span
-              className="bento-runner-1 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              className="bento-runner-1 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-none"
               style={{ transform: 'translateX(-101%)', opacity: 0 }}
             />
           </div>
 
           {/* Tile 2: Projects Metric (Square: 1 col on mobile, 1 col on desktop) */}
           {/* Direction: Top to Bottom */}
-          <div className="relative overflow-hidden rounded-2xl col-span-1 md:col-span-1">
+          <div className="relative overflow-hidden rounded-none col-span-1 md:col-span-1">
             <div
-              className="bento-box-2 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              className="bento-box-2 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-none p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
               style={{ opacity: 0 }}
             >
               <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// SHIPPED</span>
@@ -354,16 +354,16 @@ export default function About() {
 
             {/* Runner block wipes across the entire box Top -> Bottom */}
             <span
-              className="bento-runner-2 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              className="bento-runner-2 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-none"
               style={{ transform: 'translateY(-101%)', opacity: 0 }}
             />
           </div>
 
           {/* Tile 3: Clients Metric (Square: 1 col on mobile, 1 col on desktop) */}
           {/* Direction: Bottom to Top */}
-          <div className="relative overflow-hidden rounded-2xl col-span-1 md:col-span-1">
+          <div className="relative overflow-hidden rounded-none col-span-1 md:col-span-1">
             <div
-              className="bento-box-3 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              className="bento-box-3 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-none p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
               style={{ opacity: 0 }}
             >
               <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// CLIENTS</span>
@@ -385,16 +385,16 @@ export default function About() {
 
             {/* Runner block wipes across the entire box Bottom -> Top */}
             <span
-              className="bento-runner-3 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              className="bento-runner-3 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-none"
               style={{ transform: 'translateY(101%)', opacity: 0 }}
             />
           </div>
 
           {/* Tile 4: Core Tech Stack (Wide: 2 cols on mobile, 2 cols on desktop) */}
           {/* Direction: Right to Left */}
-          <div className="relative overflow-hidden rounded-2xl col-span-2 md:col-span-2">
+          <div className="relative overflow-hidden rounded-none col-span-2 md:col-span-2">
             <div
-              className="bento-box-4 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              className="bento-box-4 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-none p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
               style={{ opacity: 0 }}
             >
               <div className="flex items-center justify-between mb-2">
@@ -406,7 +406,7 @@ export default function About() {
                 {['React', 'Node.js', 'Express', 'MongoDB', 'Tailwind', 'Payment Gateways', 'Cloudinary', 'REST APIs'].map((tech) => (
                   <span
                     key={tech}
-                    className="px-2.5 py-1 rounded-lg bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-[#f4f4f5]/90 hover:border-[#d4ff00]/50 hover:text-[#d4ff00] hover:bg-[#d4ff00]/5 transition-colors cursor-default"
+                    className="px-2.5 py-1 rounded-none bg-white/[0.04] border border-white/10 text-[10px] sm:text-xs font-mono uppercase tracking-wider text-[#f4f4f5]/90 hover:border-[#d4ff00]/50 hover:text-[#d4ff00] hover:bg-[#d4ff00]/5 transition-colors cursor-default"
                   >
                     {tech}
                   </span>
@@ -421,7 +421,7 @@ export default function About() {
 
             {/* Runner block wipes across the entire box Right -> Left */}
             <span
-              className="bento-runner-4 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              className="bento-runner-4 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-none"
               style={{ transform: 'translateX(101%)', opacity: 0 }}
             />
           </div>
