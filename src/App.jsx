@@ -1,13 +1,18 @@
 import { useState, useEffect } from 'react'
 import Lenis from 'lenis'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Preloader from './components/Preloader'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import About from './components/About'
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true)
 
-  // Initialize Lenis smooth scroll
+  // Initialize Lenis smooth scroll synchronized with GSAP ScrollTrigger
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -15,14 +20,17 @@ export default function App() {
       smoothWheel: true,
     })
 
-    function raf(time) {
-      lenis.raf(time)
-      requestAnimationFrame(raf)
-    }
+    // Synchronize Lenis with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update)
 
-    requestAnimationFrame(raf)
+    const ticker = (time) => {
+      lenis.raf(time * 1000)
+    }
+    gsap.ticker.add(ticker)
+    gsap.ticker.lagSmoothing(0)
 
     return () => {
+      gsap.ticker.remove(ticker)
       lenis.destroy()
     }
   }, [])
@@ -42,6 +50,7 @@ export default function App() {
         <Navbar />
         <main>
           <Hero isLoaded={!isLoading} />
+          <About />
         </main>
       </div>
     </>
