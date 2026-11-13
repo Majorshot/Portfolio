@@ -35,73 +35,64 @@ export default function About() {
 
         const tl = gsap.timeline();
 
-        // 1. Reveal content container
-        tl.to(contentRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          ease: 'power3.out',
-        })
-
-        // 2. BOX 1: Runner curtain wipes LEFT -> RIGHT
-        .fromTo(
-          '.bento-curtain-1',
-          { xPercent: -101, opacity: 1 },
-          { xPercent: 0, duration: 0.34, ease: 'power3.inOut' },
-          '-=0.15'
+        // 1. BOX 1: Runner block wipes LEFT -> RIGHT
+        tl.fromTo(
+          '.bento-runner-1',
+          { xPercent: -101, opacity: 1, x: 0, y: 0 },
+          { xPercent: 0, duration: 0.36, ease: 'power3.inOut' }
         )
-        .set('.bento-content-1', { opacity: 1 }, '-=0.08')
+        .set('.bento-box-1', { opacity: 1 }, '-=0.1')
         .to(
-          '.bento-curtain-1',
-          { xPercent: 101, duration: 0.34, ease: 'power3.inOut' },
-          '-=0.06'
+          '.bento-runner-1',
+          { xPercent: 101, duration: 0.36, ease: 'power3.inOut' },
+          '-=0.08'
         )
-        .set('.bento-curtain-1', { opacity: 0 })
+        .set('.bento-runner-1', { opacity: 0 });
 
-        // 3. BOX 2: Runner curtain wipes TOP -> BOTTOM
-        .fromTo(
-          '.bento-curtain-2',
-          { yPercent: -101, opacity: 1 },
-          { yPercent: 0, duration: 0.34, ease: 'power3.inOut' },
+        // 2. BOX 2: Runner block wipes TOP -> BOTTOM
+        tl.fromTo(
+          '.bento-runner-2',
+          { yPercent: -101, opacity: 1, x: 0, y: 0 },
+          { yPercent: 0, duration: 0.36, ease: 'power3.inOut' },
           '-=0.22'
         )
-        .set('.bento-content-2', { opacity: 1 }, '-=0.08')
+        .set('.bento-box-2', { opacity: 1 }, '-=0.1')
         .to(
-          '.bento-curtain-2',
-          { yPercent: 101, duration: 0.34, ease: 'power3.inOut' },
-          '-=0.06'
+          '.bento-runner-2',
+          { yPercent: 101, duration: 0.36, ease: 'power3.inOut' },
+          '-=0.08'
         )
-        .set('.bento-curtain-2', { opacity: 0 })
+        .set('.bento-runner-2', { opacity: 0 });
 
-        // 4. BOX 3: Runner curtain wipes BOTTOM -> TOP
-        .fromTo(
-          '.bento-curtain-3',
-          { yPercent: 101, opacity: 1 },
-          { yPercent: 0, duration: 0.34, ease: 'power3.inOut' },
+        // 3. BOX 3: Runner block wipes BOTTOM -> TOP
+        tl.fromTo(
+          '.bento-runner-3',
+          { yPercent: 101, opacity: 1, x: 0, y: 0 },
+          { yPercent: 0, duration: 0.36, ease: 'power3.inOut' },
           '-=0.22'
         )
-        .set('.bento-content-3', { opacity: 1 }, '-=0.08')
+        .set('.bento-box-3', { opacity: 1 }, '-=0.1')
         .to(
-          '.bento-curtain-3',
-          { yPercent: -101, duration: 0.34, ease: 'power3.inOut' },
-          '-=0.06'
+          '.bento-runner-3',
+          { yPercent: -101, duration: 0.36, ease: 'power3.inOut' },
+          '-=0.08'
         )
-        .set('.bento-curtain-3', { opacity: 0 })
+        .set('.bento-runner-3', { opacity: 0 });
 
-        // 5. BOX 4: Runner curtain wipes RIGHT -> LEFT
-        .fromTo(
-          '.bento-curtain-4',
-          { xPercent: 101, opacity: 1 },
-          { xPercent: 0, duration: 0.34, ease: 'power3.inOut' },
+        // 4. BOX 4: Runner block wipes RIGHT -> LEFT
+        tl.fromTo(
+          '.bento-runner-4',
+          { xPercent: 101, opacity: 1, x: 0, y: 0 },
+          { xPercent: 0, duration: 0.36, ease: 'power3.inOut' },
           '-=0.22'
         )
-        .set('.bento-content-4', { opacity: 1 }, '-=0.08')
+        .set('.bento-box-4', { opacity: 1 }, '-=0.1')
         .to(
-          '.bento-curtain-4',
-          { xPercent: -101, duration: 0.34, ease: 'power3.inOut' },
-          '-=0.06'
+          '.bento-runner-4',
+          { xPercent: -101, duration: 0.36, ease: 'power3.inOut' },
+          '-=0.08'
         )
-        .set('.bento-curtain-4', { opacity: 0 });
+        .set('.bento-runner-4', { opacity: 0 });
       };
 
       // Function to calculate exact coordinates from vertical center stack to horizontal header
@@ -150,16 +141,13 @@ export default function About() {
         });
       });
 
-      // Hide content and park curtains initially
-      gsap.set(contentRef.current, {
-        opacity: 0,
-        y: 20,
-      });
-      gsap.set(['.bento-content-1', '.bento-content-2', '.bento-content-3', '.bento-content-4'], { opacity: 0 });
-      gsap.set('.bento-curtain-1', { xPercent: -101, opacity: 0 });
-      gsap.set('.bento-curtain-2', { yPercent: -101, opacity: 0 });
-      gsap.set('.bento-curtain-3', { yPercent: 101, opacity: 0 });
-      gsap.set('.bento-curtain-4', { xPercent: 101, opacity: 0 });
+      // Hide boxes and park runner blocks initially
+      gsap.set(contentRef.current, { opacity: 1 });
+      gsap.set(['.bento-box-1', '.bento-box-2', '.bento-box-3', '.bento-box-4'], { opacity: 0 });
+      gsap.set('.bento-runner-1', { xPercent: -101, opacity: 0, x: 0, y: 0 });
+      gsap.set('.bento-runner-2', { yPercent: -101, opacity: 0, x: 0, y: 0 });
+      gsap.set('.bento-runner-3', { yPercent: 101, opacity: 0, x: 0, y: 0 });
+      gsap.set('.bento-runner-4', { xPercent: 101, opacity: 0, x: 0, y: 0 });
 
       // 2. Master Scrub Timeline for Letter Unspooling:
       // Pinned for responsive scroll, unspools letters to top header
@@ -179,12 +167,11 @@ export default function About() {
             } else if (self.progress < 0.20) {
               // Reset if user scrolls back up into Hero
               hasRevealedContent = false;
-              gsap.set(contentRef.current, { opacity: 0, y: 20 });
-              gsap.set(['.bento-content-1', '.bento-content-2', '.bento-content-3', '.bento-content-4'], { opacity: 0 });
-              gsap.set('.bento-curtain-1', { xPercent: -101, opacity: 0 });
-              gsap.set('.bento-curtain-2', { yPercent: -101, opacity: 0 });
-              gsap.set('.bento-curtain-3', { yPercent: 101, opacity: 0 });
-              gsap.set('.bento-curtain-4', { xPercent: 101, opacity: 0 });
+              gsap.set(['.bento-box-1', '.bento-box-2', '.bento-box-3', '.bento-box-4'], { opacity: 0 });
+              gsap.set('.bento-runner-1', { xPercent: -101, opacity: 0, x: 0, y: 0 });
+              gsap.set('.bento-runner-2', { yPercent: -101, opacity: 0, x: 0, y: 0 });
+              gsap.set('.bento-runner-3', { yPercent: 101, opacity: 0, x: 0, y: 0 });
+              gsap.set('.bento-runner-4', { xPercent: 101, opacity: 0, x: 0, y: 0 });
             }
           },
         },
@@ -292,7 +279,7 @@ export default function About() {
 
         {/* 
           AUTHENTIC BENTO BOX GRID:
-          Minimalist, asymmetric, high-impact cards with 4-directional kinetic curtain wipes
+          Minimalist, asymmetric, high-impact cards with 4-directional kinetic lime runner block wipes
         */}
         <div
           ref={contentRef}
@@ -300,14 +287,11 @@ export default function About() {
         >
           {/* Tile 1: Role & Core Identity (Wide: 2 cols on mobile, 2 cols on desktop) */}
           {/* Direction: Left to Right */}
-          <div className="col-span-2 md:col-span-2 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
-            {/* Curtain wipe Left -> Right */}
+          <div className="relative overflow-hidden rounded-2xl col-span-2 md:col-span-2">
             <div
-              className="bento-curtain-1 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform"
-              style={{ transform: 'translateX(-101%)', opacity: 0 }}
-            />
-
-            <div className="bento-content-1 will-change-transform flex flex-col justify-between h-full" style={{ opacity: 0 }}>
+              className="bento-box-1 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-4 sm:p-5 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              style={{ opacity: 0 }}
+            >
               <div>
                 <div className="flex items-center justify-between mb-1.5">
                   <span className="text-[10px] sm:text-xs font-mono font-bold tracking-widest text-[#d4ff00] uppercase flex items-center gap-2">
@@ -336,18 +320,21 @@ export default function About() {
                 </span>
               </div>
             </div>
+
+            {/* Runner block wipes across the entire box Left -> Right */}
+            <span
+              className="bento-runner-1 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              style={{ transform: 'translateX(-101%)', opacity: 0 }}
+            />
           </div>
 
           {/* Tile 2: Projects Metric (Square: 1 col on mobile, 1 col on desktop) */}
           {/* Direction: Top to Bottom */}
-          <div className="col-span-1 md:col-span-1 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
-            {/* Curtain wipe Top -> Bottom */}
+          <div className="relative overflow-hidden rounded-2xl col-span-1 md:col-span-1">
             <div
-              className="bento-curtain-2 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform"
-              style={{ transform: 'translateY(-101%)', opacity: 0 }}
-            />
-
-            <div className="bento-content-2 will-change-transform flex flex-col justify-between h-full" style={{ opacity: 0 }}>
+              className="bento-box-2 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              style={{ opacity: 0 }}
+            >
               <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// SHIPPED</span>
               
               <div className="my-1">
@@ -364,18 +351,21 @@ export default function About() {
 
               <span className="text-[9px] font-mono text-[#d4ff00]/70 uppercase">Production Apps</span>
             </div>
+
+            {/* Runner block wipes across the entire box Top -> Bottom */}
+            <span
+              className="bento-runner-2 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              style={{ transform: 'translateY(-101%)', opacity: 0 }}
+            />
           </div>
 
           {/* Tile 3: Clients Metric (Square: 1 col on mobile, 1 col on desktop) */}
           {/* Direction: Bottom to Top */}
-          <div className="col-span-1 md:col-span-1 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
-            {/* Curtain wipe Bottom -> Top */}
+          <div className="relative overflow-hidden rounded-2xl col-span-1 md:col-span-1">
             <div
-              className="bento-curtain-3 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform"
-              style={{ transform: 'translateY(101%)', opacity: 0 }}
-            />
-
-            <div className="bento-content-3 will-change-transform flex flex-col justify-between h-full" style={{ opacity: 0 }}>
+              className="bento-box-3 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              style={{ opacity: 0 }}
+            >
               <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// CLIENTS</span>
               
               <div className="my-1">
@@ -392,18 +382,21 @@ export default function About() {
 
               <span className="text-[9px] font-mono text-[#d4ff00]/70 uppercase">Freelance & Contract</span>
             </div>
+
+            {/* Runner block wipes across the entire box Bottom -> Top */}
+            <span
+              className="bento-runner-3 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              style={{ transform: 'translateY(101%)', opacity: 0 }}
+            />
           </div>
 
           {/* Tile 4: Core Tech Stack (Wide: 2 cols on mobile, 2 cols on desktop) */}
           {/* Direction: Right to Left */}
-          <div className="col-span-2 md:col-span-2 relative overflow-hidden bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group">
-            {/* Curtain wipe Right -> Left */}
+          <div className="relative overflow-hidden rounded-2xl col-span-2 md:col-span-2">
             <div
-              className="bento-curtain-4 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform"
-              style={{ transform: 'translateX(101%)', opacity: 0 }}
-            />
-
-            <div className="bento-content-4 will-change-transform flex flex-col justify-between h-full" style={{ opacity: 0 }}>
+              className="bento-box-4 w-full h-full bg-[#181a20]/90 backdrop-blur-sm border border-white/10 rounded-2xl p-3.5 sm:p-4 flex flex-col justify-between hover:border-[#d4ff00]/40 transition-colors group"
+              style={{ opacity: 0 }}
+            >
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[9px] font-mono uppercase tracking-widest text-white/40">// CORE ARSENAL</span>
                 <span className="text-[8px] font-mono text-[#d4ff00] uppercase font-bold">MERN STACK</span>
@@ -425,6 +418,12 @@ export default function About() {
                 <span className="text-[#d4ff00]">FAST DEPLOYMENT</span>
               </div>
             </div>
+
+            {/* Runner block wipes across the entire box Right -> Left */}
+            <span
+              className="bento-runner-4 absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform rounded-2xl"
+              style={{ transform: 'translateX(101%)', opacity: 0 }}
+            />
           </div>
         </div>
       </div>

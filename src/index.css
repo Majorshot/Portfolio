@@ -78,6 +78,34 @@ body {
   opacity: 0;
 }
 
+/* Initial parked state for Bento runner reveals */
+.bento-box-1,
+.bento-box-2,
+.bento-box-3,
+.bento-box-4 {
+  opacity: 0;
+}
+
+.bento-runner-1 {
+  transform: translateX(-101%);
+  opacity: 0;
+}
+
+.bento-runner-2 {
+  transform: translateY(-101%);
+  opacity: 0;
+}
+
+.bento-runner-3 {
+  transform: translateY(101%);
+  opacity: 0;
+}
+
+.bento-runner-4 {
+  transform: translateX(101%);
+  opacity: 0;
+}
+
 /* Moving Ribbon Marquee Animations */
 @keyframes marquee-forward {
   0% {
