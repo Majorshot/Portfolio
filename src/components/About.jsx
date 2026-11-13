@@ -211,7 +211,7 @@ export default function About() {
       {/* Pinned Viewport Container */}
       <div
         ref={pinRef}
-        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-6 sm:pt-12 pb-12 select-none"
+        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-20 sm:pt-24 pb-12 select-none"
       >
         {/* Top Technical Metadata Track */}
         <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-3">
