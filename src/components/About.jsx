@@ -4,6 +4,16 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const ABOUT_LETTERS = [
+  { char: 'A', group: 'about' },
+  { char: 'B', group: 'about' },
+  { char: 'O', group: 'about' },
+  { char: 'U', group: 'about' },
+  { char: 'T', group: 'about' },
+  { char: 'M', group: 'me' },
+  { char: 'E', group: 'me' },
+];
+
 const STATS = [
   { value: '03+', label: 'YEARS DEV EXPERIENCE', desc: 'Crafting production web applications' },
   { value: '20+', label: 'PROJECTS SHIPPED', desc: 'From full-stack SaaS to creative sites' },
@@ -27,60 +37,102 @@ const DISCIPLINES = [
 export default function About() {
   const containerRef = useRef(null);
   const pinRef = useRef(null);
-  const titleRef = useRef(null);
+  const headerRef = useRef(null);
   const contentRef = useRef(null);
+  const lettersRef = useRef([]);
 
   useEffect(() => {
+    const pinEl = pinRef.current;
+    if (!pinEl) return;
+
     const ctx = gsap.context(() => {
-      // 1. Initial State:
-      // "ABOUT ME" starts centered vertically in the viewport
-      // Rotated 90deg (or -90deg) fitting the screen height
-      gsap.set(titleRef.current, {
-        rotation: 90,
-        transformOrigin: 'center center',
-        yPercent: 0,
-        xPercent: 0,
-        scale: 1,
-      });
-
-      // Content starts invisible and pushed down
-      gsap.set(contentRef.current, {
-        opacity: 0,
-        y: 60,
-      });
-
-      // Park signature block reveal elements
-      gsap.set('.about-reveal-block', { xPercent: -101 });
-      gsap.set('.about-reveal-text', { opacity: 0 });
-
-      // 2. Master Scrub Timeline:
-      // - Phase A (0% -> 50% scroll):
-      //   "ABOUT ME" title twists from vertical (90deg) to horizontal (0deg),
-      //   gliding to the top of the container and scaling to fit the header width.
-      // - Phase B (50% -> 100% scroll):
-      //   Content underneath unveils with smooth opacity, lift, and signature runner wipe!
-      const tl = gsap.timeline({
+      // Setup timeline with scroll pinning
+      const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: '+=180%',
+          end: '+=220%',
           pin: pinRef.current,
-          scrub: 0.8,
+          scrub: 0.9,
           anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
 
-      // PHASE A: Rotate vertical text to horizontal and dock at the top
-      tl.to(titleRef.current, {
-        rotation: 0,
-        yPercent: -120, // moves from center up to top header position
-        duration: 0.5,
-        ease: 'power3.inOut',
+      // Function to calculate coordinates from vertical stack to horizontal top
+      const calculateDeltas = () => {
+        const pinRect = pinEl.getBoundingClientRect();
+        const centerX = pinRect.width / 2;
+        const centerY = pinRect.height / 2;
+
+        const totalLetters = ABOUT_LETTERS.length;
+        // Spacing for vertical stack: fits ~60% of viewport height
+        const stepY = Math.min(68, Math.max(38, (pinRect.height * 0.58) / (totalLetters + 1)));
+        const wordGap = stepY * 0.6;
+        const totalHeight = (totalLetters - 1) * stepY + wordGap;
+        const startY0 = centerY - totalHeight / 2;
+
+        return lettersRef.current.map((el, i) => {
+          if (!el) return { dx: 0, dy: 0 };
+          const rect = el.getBoundingClientRect();
+          // Horizontal resting position relative to pinned container
+          const currentCenterX = rect.left - pinRect.left + rect.width / 2;
+          const currentCenterY = rect.top - pinRect.top + rect.height / 2;
+
+          // Target vertical stack position:
+          // X is screen center, Y is stacked top-to-bottom
+          const isSecondWord = i >= 5; // 'M' and 'E'
+          const targetY = startY0 + i * stepY + (isSecondWord ? wordGap : 0);
+          const targetX = centerX;
+
+          return {
+            dx: targetX - currentCenterX,
+            dy: targetY - currentCenterY,
+          };
+        });
+      };
+
+      const deltas = calculateDeltas();
+
+      // 1. Initial State:
+      // Position every letter at its vertical stack coordinates in the center of the screen
+      lettersRef.current.forEach((el, i) => {
+        if (!el || !deltas[i]) return;
+        gsap.set(el, {
+          x: deltas[i].dx,
+          y: deltas[i].dy,
+          scale: 1.15,
+        });
       });
 
-      // PHASE B: Content smoothly lifts up and unveils underneath
-      tl.to(
+      // Hide content initially
+      gsap.set(contentRef.current, {
+        opacity: 0,
+        y: 45,
+      });
+      gsap.set('.about-reveal-block', { xPercent: -101 });
+      gsap.set('.about-reveal-text', { opacity: 0 });
+
+      // 2. KINETIC MIGRATION:
+      // Letters unspool from vertical stack and settle into the horizontal header at the top
+      lettersRef.current.forEach((el, i) => {
+        if (!el) return;
+        masterTl.to(
+          el,
+          {
+            x: 0,
+            y: 0,
+            scale: 1,
+            duration: 0.65,
+            ease: 'power3.inOut',
+          },
+          i * 0.045 // staggered unspooling from A -> B -> O -> U -> T -> M -> E
+        );
+      });
+
+      // 3. REVEAL CONTENT:
+      // Once letters settle horizontally at the top, the content reveals underneath
+      masterTl.to(
         contentRef.current,
         {
           opacity: 1,
@@ -88,9 +140,9 @@ export default function About() {
           duration: 0.5,
           ease: 'power3.out',
         },
-        '-=0.15'
+        '-=0.2'
       )
-      // Signature runner block reveal for About headline
+      // Signature runner block wipe on the headline
       .fromTo(
         '.about-reveal-block',
         { xPercent: -101 },
@@ -99,7 +151,7 @@ export default function About() {
           duration: 0.35,
           ease: 'power3.inOut',
         },
-        '-=0.3'
+        '-=0.25'
       )
       .set('.about-reveal-text', { opacity: 1 }, '-=0.1')
       .to(
@@ -111,6 +163,18 @@ export default function About() {
         },
         '-=0.08'
       );
+
+      // Recalculate positions on window resize
+      ScrollTrigger.addEventListener('refreshInit', () => {
+        const newDeltas = calculateDeltas();
+        lettersRef.current.forEach((el, i) => {
+          if (!el || !newDeltas[i]) return;
+          // Only update if at the start of scroll
+          if (masterTl.progress() === 0) {
+            gsap.set(el, { x: newDeltas[i].dx, y: newDeltas[i].dy });
+          }
+        });
+      });
 
     }, containerRef);
 
@@ -126,65 +190,95 @@ export default function About() {
       {/* Pinned Viewport Container */}
       <div
         ref={pinRef}
-        className="w-full h-screen relative overflow-hidden flex flex-col justify-center items-center px-4 sm:px-8 md:px-12 py-6 select-none"
+        className="w-full h-screen relative overflow-hidden flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-12 sm:pt-14 pb-6 select-none"
       >
-        {/* Subtle Top Metadata Track */}
-        <div className="absolute top-4 sm:top-6 left-4 sm:left-8 md:left-12 right-4 sm:right-8 md:right-12 flex items-center justify-between z-20 pointer-events-none text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60">
-          <span>[ 01 // OVERVIEW ]</span>
+        {/* Top Technical Metadata Track */}
+        <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-4">
+          <span>[ 01 // IDENTITY ]</span>
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-            LIVE PROFILE
+            LIVE OVERVIEW
           </span>
         </div>
 
         {/* 
-          TRANSFORMING TITLE: "ABOUT ME"
-          Starts vertical in center of screen -> Rotates to horizontal at top of screen 
+          HORIZONTAL DOCKED HEADER AT THE TOP:
+          Letters start stacked vertically in screen center (all letters upright),
+          then on scroll each letter migrates and settles horizontally into place!
         */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+        <div
+          ref={headerRef}
+          className="w-full max-w-6xl flex items-center justify-start z-30 py-1"
+        >
           <h2
-            ref={titleRef}
-            className="text-[clamp(3.5rem,14vw,8.5rem)] font-black uppercase tracking-tight text-[#d4ff00] leading-none whitespace-nowrap will-change-transform drop-shadow-[0_4px_24px_rgba(212,255,0,0.12)]"
+            className="text-[clamp(2.8rem,11.5vw,7.5rem)] font-black uppercase tracking-tight text-[#d4ff00] leading-none flex items-center flex-nowrap"
             style={{ fontFamily: "'Anton', sans-serif" }}
           >
-            ABOUT ME
+            {/* Word 1: ABOUT */}
+            <span className="flex items-center flex-nowrap">
+              {ABOUT_LETTERS.slice(0, 5).map((item, idx) => (
+                <span
+                  key={`letter-about-${idx}`}
+                  ref={(el) => (lettersRef.current[idx] = el)}
+                  className="inline-block will-change-transform drop-shadow-[0_4px_20px_rgba(212,255,0,0.15)]"
+                >
+                  {item.char}
+                </span>
+              ))}
+            </span>
+
+            {/* Space between ABOUT and ME */}
+            <span className="inline-block w-3 sm:w-6 md:w-8" />
+
+            {/* Word 2: ME */}
+            <span className="flex items-center flex-nowrap">
+              {ABOUT_LETTERS.slice(5).map((item, idx) => (
+                <span
+                  key={`letter-me-${idx}`}
+                  ref={(el) => (lettersRef.current[5 + idx] = el)}
+                  className="inline-block will-change-transform drop-shadow-[0_4px_20px_rgba(212,255,0,0.15)]"
+                >
+                  {item.char}
+                </span>
+              ))}
+            </span>
           </h2>
         </div>
 
         {/* 
-          UNVEILED CONTENT UNDERNEATH
-          Appears once "ABOUT ME" docks horizontally at the top 
+          UNVEILED CONTENT UNDERNEATH:
+          Reveals once the letters settle into horizontal alignment at the top
         */}
         <div
           ref={contentRef}
-          className="relative z-20 w-full max-w-6xl mx-auto flex flex-col justify-center gap-6 sm:gap-8 mt-16 sm:mt-24 pointer-events-auto"
+          className="relative z-20 w-full max-w-6xl mx-auto flex flex-col justify-start gap-4 sm:gap-6 mt-3 sm:mt-6 overflow-y-auto max-h-[calc(100vh-170px)] pr-1"
         >
-          {/* Top Row: Headline with Signature Block Runner Wipe */}
-          <div className="w-full flex flex-col items-start gap-2">
+          {/* Headline with Signature Kinetic Block Runner Wipe */}
+          <div className="w-full flex flex-col items-start gap-1.5">
             <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00] font-bold">
-              PHILOSOPHY & VISION
+              FULL STACK PHILOSOPHY
             </span>
             <div className="relative inline-block overflow-hidden max-w-3xl">
-              <h3 className="about-reveal-text text-xl sm:text-2xl md:text-3xl font-black uppercase text-[#f4f4f5] tracking-tight leading-snug">
+              <h3 className="about-reveal-text text-base sm:text-2xl md:text-3xl font-black uppercase text-[#f4f4f5] tracking-tight leading-snug">
                 BRIDGING CREATIVE DESIGN & HIGH-PERFORMANCE ARCHITECTURE
               </h3>
               <span className="about-reveal-block absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform" />
             </div>
-            <p className="text-sm sm:text-base text-[#f4f4f5]/70 max-w-2xl leading-relaxed mt-1 font-mono">
-              I craft digital experiences where technical rigor meets artistic motion. Every line of code is optimized for zero latency, tactile interactivity, and rock-solid scalability.
+            <p className="text-xs sm:text-sm text-[#f4f4f5]/70 max-w-2xl leading-relaxed font-mono">
+              I architect digital systems where backend stability meets cinematic frontend interaction. Every interface is built to respond with zero delay, silky 60fps animations, and industrial-grade scalability.
             </p>
           </div>
 
-          {/* Middle Row: Bento Disciplines & Stats Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 w-full">
+          {/* Bento Stats Grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
             {STATS.map((stat, idx) => (
               <div
                 key={idx}
-                className="bg-[#181a1f] border border-white/5 hover:border-[#d4ff00]/40 p-3 sm:p-4 rounded-sm flex flex-col justify-between transition-colors duration-300 group"
+                className="bg-[#181a1f] border border-white/5 hover:border-[#d4ff00]/40 p-2.5 sm:p-4 rounded-sm flex flex-col justify-between transition-colors duration-300 group"
               >
-                <div className="flex items-baseline justify-between mb-2">
+                <div className="flex items-baseline justify-between mb-1.5">
                   <span
-                    className="text-3xl sm:text-4xl font-black text-[#d4ff00] font-anton tracking-tight group-hover:scale-105 transition-transform"
+                    className="text-2xl sm:text-4xl font-black text-[#d4ff00] font-anton tracking-tight group-hover:scale-105 transition-transform"
                     style={{ fontFamily: "'Anton', sans-serif" }}
                   >
                     {stat.value}
@@ -194,10 +288,10 @@ export default function About() {
                   </span>
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold font-mono tracking-wider text-white uppercase mb-0.5">
+                  <h4 className="text-[11px] sm:text-xs font-bold font-mono tracking-wider text-white uppercase mb-0.5">
                     {stat.label}
                   </h4>
-                  <p className="text-[11px] text-white/50 leading-tight">
+                  <p className="text-[10px] sm:text-[11px] text-white/50 leading-tight hidden sm:block">
                     {stat.desc}
                   </p>
                 </div>
@@ -205,25 +299,25 @@ export default function About() {
             ))}
           </div>
 
-          {/* Bottom Row: Disciplines Overview */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 w-full">
+          {/* Disciplines Pillars */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 w-full">
             {DISCIPLINES.map((disc, idx) => (
               <div
                 key={idx}
-                className="bg-[#181a1f] border border-white/5 p-4 rounded-sm flex flex-col justify-between hover:border-[#d4ff00]/30 transition-colors"
+                className="bg-[#181a1f] border border-white/5 p-3 sm:p-4 rounded-sm flex flex-col justify-between hover:border-[#d4ff00]/30 transition-colors"
               >
                 <div>
-                  <div className="flex items-center gap-2 mb-1.5">
+                  <div className="flex items-center gap-2 mb-1">
                     <span className="w-1.5 h-1.5 bg-[#d4ff00]" />
                     <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#d4ff00] font-mono">
                       {disc.title}
                     </h4>
                   </div>
-                  <p className="text-xs text-[#f4f4f5]/80 leading-relaxed mb-2 font-mono">
+                  <p className="text-[11px] sm:text-xs text-[#f4f4f5]/80 leading-relaxed mb-2 font-mono">
                     {disc.desc}
                   </p>
                 </div>
-                <div className="text-[10px] font-mono tracking-widest text-[#d4ff00]/60 uppercase pt-2 border-t border-white/5">
+                <div className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#d4ff00]/60 uppercase pt-1.5 border-t border-white/5">
                   {disc.tech}
                 </div>
               </div>
@@ -231,9 +325,9 @@ export default function About() {
           </div>
         </div>
 
-        {/* Bottom Scroll Indicator Pill */}
-        <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
-          <span>SCROLL TO EXPLORE</span>
+        {/* Scroll Exploration Cue */}
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-center gap-2 text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
+          <span>SCROLL TO ADVANCE</span>
           <span className="w-1 h-3 rounded-full border border-white/30 inline-flex justify-center p-0.5">
             <span className="w-0.5 h-1 bg-[#d4ff00] rounded-full animate-bounce" />
           </span>
