@@ -60,11 +60,13 @@ body {
   min-width: 44px;
 }
 
-/* Initial parked state for Hero reveal */
-.hero-wipe-block {
+/* Initial parked state for Hero reveal - eliminates flash of blocks/lines */
+.hero-reveal-block {
   transform: translateX(-101%);
-}
-
-.hero-wipe-text {
   opacity: 0;
 }
+
+.hero-reveal-text {
+  opacity: 0;
+}
+
