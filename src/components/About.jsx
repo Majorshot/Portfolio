@@ -15,22 +15,22 @@ const ABOUT_LETTERS = [
 ];
 
 const STATS = [
-  { value: '03+', label: 'YEARS DEV EXPERIENCE', desc: 'Crafting production web applications' },
-  { value: '20+', label: 'PROJECTS SHIPPED', desc: 'From full-stack SaaS to creative sites' },
-  { value: '60FPS', label: 'FLUID MOTION', desc: 'Kinetic typography & WebGL shaders' },
-  { value: '100%', label: 'CODE QUALITY', desc: 'Modular, type-safe, scale-ready logic' },
+  { value: '3+', label: 'YEARS EXPERIENCE', desc: 'Full Stack Software Engineering' },
+  { value: '10+', label: 'PROJECTS BUILT', desc: 'Production web apps & client systems' },
+  { value: '4+', label: 'CLIENTS SERVED', desc: 'Custom freelance & contract delivery' },
+  { value: 'MERN', label: 'CORE STACK FOCUS', desc: 'MongoDB • Express • React • Node.js' },
 ];
 
 const DISCIPLINES = [
   {
-    title: 'FRONTEND ARCHITECTURE',
-    tech: 'React • Next.js • TypeScript • Tailwind CSS • WebGL',
-    desc: 'Pixel-perfect, responsive UI engineering with smooth Lenis physics and GSAP choreographies.',
+    title: 'FRONTEND & UI ENGINEERING',
+    tech: 'React.js • Tailwind CSS • HTML5 • CSS3 • JavaScript (ES6+) • Vite',
+    desc: 'Crafting responsive, high-performance web applications with modular components, fluid layouts, and polished user experiences.',
   },
   {
-    title: 'BACKEND & INFRASTRUCTURE',
-    tech: 'Node.js • Python • PostgreSQL • Redis • Docker',
-    desc: 'High-throughput APIs, relational schema design, caching strategies, and secure deployments.',
+    title: 'BACKEND & CLOUD INTEGRATIONS',
+    tech: 'Node.js • Express.js • MongoDB • Payment Gateways • Cloudinary • REST APIs',
+    desc: 'Engineering scalable server architectures, secure database schemas, seamless payment gateways (Stripe/Razorpay), and automated media delivery with Cloudinary.',
   },
 ];
 
@@ -207,14 +207,14 @@ export default function About() {
       {/* Pinned Viewport Container */}
       <div
         ref={pinRef}
-        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-10 sm:pt-14 pb-8 select-none"
+        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-10 sm:pt-14 pb-12 select-none"
       >
         {/* Top Technical Metadata Track */}
         <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-3">
-          <span>[ 01 // IDENTITY ]</span>
-          <span className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
-            LIVE OVERVIEW
+          <span>[ 01 // KERALA, INDIA ]</span>
+          <span className="flex items-center gap-2 text-[#d4ff00]">
+            <span className="w-2 h-2 rounded-full bg-[#d4ff00] animate-pulse" />
+            OPEN FOR FULL-TIME & FREELANCE
           </span>
         </div>
 
@@ -272,26 +272,31 @@ export default function About() {
         >
           {/* Headline with Automatic Signature Block Runner Wipe */}
           <div className="w-full flex flex-col items-start gap-1.5">
-            <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00] font-bold">
-              FULL STACK PHILOSOPHY
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-[#d4ff00]" />
+              <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00] font-bold">
+                SOFTWARE ENGINEER • FULL STACK MERN
+              </span>
+            </div>
+            
             <div className="relative inline-block overflow-hidden max-w-3xl">
               <h3 className="about-reveal-text text-base sm:text-2xl md:text-3xl font-black uppercase text-[#f4f4f5] tracking-tight leading-snug">
-                BRIDGING CREATIVE DESIGN & HIGH-PERFORMANCE ARCHITECTURE
+                ARCHITECTING MODERN MERN WEB APPS WITH SEAMLESS USER EXPERIENCES
               </h3>
               <span className="about-reveal-block absolute inset-0 bg-[#d4ff00] z-20 pointer-events-none will-change-transform" />
             </div>
-            <p className="text-xs sm:text-sm text-[#f4f4f5]/70 max-w-2xl leading-relaxed font-mono">
-              I architect digital systems where backend stability meets cinematic frontend interaction. Every interface is built to respond with zero delay, silky 60fps animations, and industrial-grade scalability.
+
+            <p className="text-xs sm:text-sm text-[#f4f4f5]/80 max-w-3xl leading-relaxed font-mono">
+              Hi, I&apos;m Midhun Mohan — a Full Stack Software Engineer from Kerala with 3 years of hands-on experience building production web applications. I specialize in the MERN stack (MongoDB, Express.js, React, Node.js), engineering responsive interfaces with Tailwind CSS, secure payment gateway integrations, Cloudinary media pipelines, and high-performance REST APIs.
             </p>
           </div>
 
-          {/* Bento Stats Grid */}
+          {/* Real Bento Stats Grid */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4 w-full">
             {STATS.map((stat, idx) => (
               <div
                 key={idx}
-                className="bg-[#181a1f] border border-white/5 hover:border-[#d4ff00]/40 p-2.5 sm:p-4 rounded-sm flex flex-col justify-between transition-colors duration-300 group"
+                className="bg-[#181a1f] border border-white/5 hover:border-[#d4ff00]/40 p-3 sm:p-4 rounded-sm flex flex-col justify-between transition-colors duration-300 group"
               >
                 <div className="flex items-baseline justify-between mb-1.5">
                   <span
@@ -308,7 +313,7 @@ export default function About() {
                   <h4 className="text-[11px] sm:text-xs font-bold font-mono tracking-wider text-white uppercase mb-0.5">
                     {stat.label}
                   </h4>
-                  <p className="text-[10px] sm:text-[11px] text-white/50 leading-tight hidden sm:block">
+                  <p className="text-[10px] sm:text-[11px] text-white/50 leading-tight">
                     {stat.desc}
                   </p>
                 </div>
@@ -316,15 +321,15 @@ export default function About() {
             ))}
           </div>
 
-          {/* Disciplines Pillars */}
+          {/* Real Disciplines & Tech Arsenal */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-4 w-full">
             {DISCIPLINES.map((disc, idx) => (
               <div
                 key={idx}
-                className="bg-[#181a1f] border border-white/5 p-3 sm:p-4 rounded-sm flex flex-col justify-between hover:border-[#d4ff00]/30 transition-colors"
+                className="bg-[#181a1f] border border-white/5 p-3.5 sm:p-4 rounded-sm flex flex-col justify-between hover:border-[#d4ff00]/30 transition-colors"
               >
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1.5">
                     <span className="w-1.5 h-1.5 bg-[#d4ff00]" />
                     <h4 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#d4ff00] font-mono">
                       {disc.title}
@@ -334,7 +339,7 @@ export default function About() {
                     {disc.desc}
                   </p>
                 </div>
-                <div className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#d4ff00]/60 uppercase pt-1.5 border-t border-white/5">
+                <div className="text-[9px] sm:text-[10px] font-mono tracking-widest text-[#d4ff00]/70 uppercase pt-2 border-t border-white/5">
                   {disc.tech}
                 </div>
               </div>
