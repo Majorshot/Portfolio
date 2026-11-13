@@ -60,14 +60,11 @@ body {
   min-width: 44px;
 }
 
-/* Initial parked state for Hero reveal blocks - eliminates split-second flash */
-.hero-reveal-block {
-  visibility: hidden;
-  opacity: 0;
+/* Initial parked state for Hero wave reveal - eliminates split-second flash */
+.hero-anim-block {
   transform: translateX(-101%);
 }
 
-.hero-reveal-text {
-  visibility: hidden;
+.hero-anim-text {
   opacity: 0;
 }
