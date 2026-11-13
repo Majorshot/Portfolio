@@ -59,3 +59,12 @@ body {
   min-height: 44px;
   min-width: 44px;
 }
+
+/* Initial parked state for Hero reveal */
+.hero-wipe-block {
+  transform: translateX(-101%);
+}
+
+.hero-wipe-text {
+  opacity: 0;
+}

@@ -21,52 +21,42 @@ export default function Hero({ isLoaded = true }) {
     if (!isLoaded) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial State: all texts hidden (opacity 0), all blocks collapsed at scaleX 0 on the left
-      gsap.set([tagTextRef.current, midhunTextRef.current, mohanTextRef.current, quoteTextRef.current], {
-        opacity: 0,
-      });
-      gsap.set([tagBlockRef.current, midhunBlockRef.current, mohanBlockRef.current, quoteBlockRef.current], {
-        scaleX: 0,
-        transformOrigin: 'left center',
-        display: 'block',
-      });
+      // 1. Initial State: All text hidden (opacity 0), all blocks parked off-screen to the left (-101%)
+      gsap.set('.hero-wipe-text', { opacity: 0 });
+      gsap.set('.hero-wipe-block', { xPercent: -101, display: 'block' });
 
-      // Timeline starts after the preloader curtain finishes unfolding
+      // Clean delay after preloader curtain finishes unfolding
       const tl = gsap.timeline({ delay: 0.15 });
 
-      const items = [
+      const rows = [
         { text: tagTextRef.current, block: tagBlockRef.current, dur: 0.32 },
-        { text: midhunTextRef.current, block: midhunBlockRef.current, dur: 0.4 },
-        { text: mohanTextRef.current, block: mohanBlockRef.current, dur: 0.4 },
-        { text: quoteTextRef.current, block: quoteBlockRef.current, dur: 0.35 },
+        { text: midhunTextRef.current, block: midhunBlockRef.current, dur: 0.36 },
+        { text: mohanTextRef.current, block: mohanBlockRef.current, dur: 0.36 },
+        { text: quoteTextRef.current, block: quoteBlockRef.current, dur: 0.32 },
       ];
 
-      items.forEach((item, i) => {
-        // Step 1: Block comes from left to right to cover the full width of the word
+      rows.forEach((row, i) => {
+        // Step 1: Block comes from left to right until it completes the full width of the word (0%)
         tl.fromTo(
-          item.block,
-          { scaleX: 0, transformOrigin: 'left center' },
+          row.block,
+          { xPercent: -101 },
           {
-            scaleX: 1,
-            duration: item.dur,
-            ease: 'power2.inOut',
+            xPercent: 0,
+            duration: row.dur,
+            ease: 'power3.inOut',
           },
-          i === 0 ? '+=0.05' : '-=0.15' // smooth top-to-bottom wave cascade
+          i === 0 ? '+=0.05' : '-=0.14' // smooth cascading wave from top to bottom
         )
-        // Step 2: The exact moment block completes full width, the word appears behind it
-        .set(item.text, { opacity: 1 })
-        // Step 3: Block removes from left to right (shrinking to the right edge)
-        .fromTo(
-          item.block,
-          { scaleX: 1, transformOrigin: 'right center' },
-          {
-            scaleX: 0,
-            duration: item.dur,
-            ease: 'power2.inOut',
-          }
-        )
-        // Step 4: Hide the block completely once finished
-        .set(item.block, { display: 'none' });
+        // Step 2: The exact moment block completes full width, the word appears behind the block
+        .set(row.text, { opacity: 1 })
+        // Step 3: Block removes from left to right (sliding out to 101%), unveiling the word
+        .to(row.block, {
+          xPercent: 101,
+          duration: row.dur,
+          ease: 'power3.inOut',
+        })
+        // Step 4: Hide block completely so it never lingers
+        .set(row.block, { display: 'none' });
       });
     }, bannerRef);
 
@@ -114,19 +104,19 @@ export default function Hero({ isLoaded = true }) {
           <div className="relative inline-block overflow-hidden self-start mb-2 sm:mb-3">
             <span
               ref={tagTextRef}
-              className="text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-[#121316]/80 font-bold block"
+              className="hero-wipe-text text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-[#121316]/80 font-bold block"
               style={{ opacity: 0 }}
             >
               FULL STACK DEVELOPER
             </span>
             <span
               ref={tagBlockRef}
-              className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
-              style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+              className="hero-wipe-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+              style={{ transform: 'translateX(-101%)' }}
             />
           </div>
 
-          {/* 2 & 3. 2-LINE ADAPTIVE NAME */}
+          {/* 2 & 3. 2-LINE ADAPTIVE NAME — Each entire word as a single unit */}
           <h1
             className="text-[clamp(5.6rem,31.5vw,22vw)] font-black tracking-tight text-[#121316] uppercase leading-[0.92] select-none text-left flex flex-col gap-1 sm:gap-2"
             style={{ fontFamily: "'Anton', sans-serif" }}
@@ -135,15 +125,15 @@ export default function Hero({ isLoaded = true }) {
             <div className="relative inline-block overflow-hidden self-start">
               <span
                 ref={midhunTextRef}
-                className="block whitespace-nowrap"
+                className="hero-wipe-text block whitespace-nowrap"
                 style={{ opacity: 0 }}
               >
                 MIDHUN
               </span>
               <span
                 ref={midhunBlockRef}
-                className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
-                style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+                className="hero-wipe-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+                style={{ transform: 'translateX(-101%)' }}
               />
             </div>
 
@@ -151,15 +141,15 @@ export default function Hero({ isLoaded = true }) {
             <div className="relative inline-block overflow-hidden self-start">
               <span
                 ref={mohanTextRef}
-                className="block whitespace-nowrap"
+                className="hero-wipe-text block whitespace-nowrap"
                 style={{ opacity: 0 }}
               >
                 MOHAN
               </span>
               <span
                 ref={mohanBlockRef}
-                className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
-                style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+                className="hero-wipe-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+                style={{ transform: 'translateX(-101%)' }}
               />
             </div>
           </h1>
@@ -168,15 +158,15 @@ export default function Hero({ isLoaded = true }) {
           <div className="relative inline-block overflow-hidden self-start mt-3 sm:mt-5 max-w-2xl">
             <p
               ref={quoteTextRef}
-              className="text-[11px] sm:text-xs md:text-sm font-mono tracking-wide text-[#121316]/80 font-medium"
+              className="hero-wipe-text text-[11px] sm:text-xs md:text-sm font-mono tracking-wide text-[#121316]/80 font-medium"
               style={{ opacity: 0 }}
             >
               “Transforming complex logic into seamless, high-performance digital experiences.”
             </p>
             <span
               ref={quoteBlockRef}
-              className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
-              style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+              className="hero-wipe-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+              style={{ transform: 'translateX(-101%)' }}
             />
           </div>
 
