@@ -59,12 +59,3 @@ body {
   min-height: 44px;
   min-width: 44px;
 }
-
-/* Initial parked state for Hero wave reveal - eliminates split-second flash */
-.hero-anim-block {
-  transform: translateX(-101%);
-}
-
-.hero-anim-text {
-  opacity: 0;
-}

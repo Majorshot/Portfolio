@@ -2,116 +2,72 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import Waves from './Waves';
 
-const TAG_WORDS = ['FULL', 'STACK', 'DEVELOPER'];
-const MIDHUN_CHARS = ['M', 'I', 'D', 'H', 'U', 'N'];
-const MOHAN_CHARS = ['M', 'O', 'H', 'A', 'N'];
-const QUOTE_WORDS = '“Transforming complex logic into seamless, high-performance digital experiences.”'.split(' ');
-
 export default function Hero({ isLoaded = true }) {
   const bannerRef = useRef(null);
+
+  const tagTextRef = useRef(null);
+  const tagBlockRef = useRef(null);
+
+  const midhunTextRef = useRef(null);
+  const midhunBlockRef = useRef(null);
+
+  const mohanTextRef = useRef(null);
+  const mohanBlockRef = useRef(null);
+
+  const quoteTextRef = useRef(null);
+  const quoteBlockRef = useRef(null);
 
   useEffect(() => {
     if (!isLoaded) return;
 
     const ctx = gsap.context(() => {
-      // 1. Initial State: all text hidden, all micro-blocks parked at -101%
-      gsap.set('.hero-anim-text', { opacity: 0 });
-      gsap.set('.hero-anim-block', { xPercent: -101, display: 'block' });
+      // 1. Initial State: all texts hidden (opacity 0), all blocks collapsed at scaleX 0 on the left
+      gsap.set([tagTextRef.current, midhunTextRef.current, mohanTextRef.current, quoteTextRef.current], {
+        opacity: 0,
+      });
+      gsap.set([tagBlockRef.current, midhunBlockRef.current, mohanBlockRef.current, quoteBlockRef.current], {
+        scaleX: 0,
+        transformOrigin: 'left center',
+        display: 'block',
+      });
 
-      // Clean delay after the preloader curtain finishes unfolding
+      // Timeline starts after the preloader curtain finishes unfolding
       const tl = gsap.timeline({ delay: 0.15 });
 
-      // --- PHASE 1: FULL STACK DEVELOPER (word wave) ---
-      tl.fromTo('.tag-block',
-        { xPercent: -101 },
-        {
-          xPercent: 0,
-          duration: 0.24,
-          ease: 'power3.inOut',
-          stagger: 0.05
-        }
-      )
-      .set('.tag-text', { opacity: 1 }, '-=0.12')
-      .to('.tag-block',
-        {
-          xPercent: 101,
-          duration: 0.24,
-          ease: 'power3.inOut',
-          stagger: 0.05
-        },
-        '-=0.12'
-      )
-      .set('.tag-block', { display: 'none' });
+      const items = [
+        { text: tagTextRef.current, block: tagBlockRef.current, dur: 0.32 },
+        { text: midhunTextRef.current, block: midhunBlockRef.current, dur: 0.4 },
+        { text: mohanTextRef.current, block: mohanBlockRef.current, dur: 0.4 },
+        { text: quoteTextRef.current, block: quoteBlockRef.current, dur: 0.35 },
+      ];
 
-      // --- PHASE 2: MIDHUN (letter-by-letter wave in rightward direction) ---
-      tl.fromTo('.midhun-block',
-        { xPercent: -101 },
-        {
-          xPercent: 0,
-          duration: 0.26,
-          ease: 'power3.inOut',
-          stagger: 0.035
-        },
-        '-=0.1' // fluid overlap with tag
-      )
-      .set('.midhun-text', { opacity: 1 }, '-=0.13')
-      .to('.midhun-block',
-        {
-          xPercent: 101,
-          duration: 0.26,
-          ease: 'power3.inOut',
-          stagger: 0.035
-        },
-        '-=0.13'
-      )
-      .set('.midhun-block', { display: 'none' });
-
-      // --- PHASE 3: MOHAN (letter-by-letter wave in rightward direction) ---
-      tl.fromTo('.mohan-block',
-        { xPercent: -101 },
-        {
-          xPercent: 0,
-          duration: 0.26,
-          ease: 'power3.inOut',
-          stagger: 0.035
-        },
-        '-=0.14' // seamless cascade from MIDHUN to MOHAN
-      )
-      .set('.mohan-text', { opacity: 1 }, '-=0.13')
-      .to('.mohan-block',
-        {
-          xPercent: 101,
-          duration: 0.26,
-          ease: 'power3.inOut',
-          stagger: 0.035
-        },
-        '-=0.13'
-      )
-      .set('.mohan-block', { display: 'none' });
-
-      // --- PHASE 4: QUOTE (word-by-word wave) ---
-      tl.fromTo('.quote-block',
-        { xPercent: -101 },
-        {
-          xPercent: 0,
-          duration: 0.22,
-          ease: 'power3.inOut',
-          stagger: 0.03
-        },
-        '-=0.1' // smooth cascade from MOHAN to quote
-      )
-      .set('.quote-text', { opacity: 1 }, '-=0.11')
-      .to('.quote-block',
-        {
-          xPercent: 101,
-          duration: 0.22,
-          ease: 'power3.inOut',
-          stagger: 0.03
-        },
-        '-=0.11'
-      )
-      .set('.quote-block', { display: 'none' });
-
+      items.forEach((item, i) => {
+        // Step 1: Block comes from left to right to cover the full width of the word
+        tl.fromTo(
+          item.block,
+          { scaleX: 0, transformOrigin: 'left center' },
+          {
+            scaleX: 1,
+            duration: item.dur,
+            ease: 'power2.inOut',
+          },
+          i === 0 ? '+=0.05' : '-=0.15' // smooth top-to-bottom wave cascade
+        )
+        // Step 2: The exact moment block completes full width, the word appears behind it
+        .set(item.text, { opacity: 1 })
+        // Step 3: Block removes from left to right (shrinking to the right edge)
+        .fromTo(
+          item.block,
+          { scaleX: 1, transformOrigin: 'right center' },
+          {
+            scaleX: 0,
+            duration: item.dur,
+            ease: 'power2.inOut',
+          }
+        )
+        // Step 4: Hide the block completely once finished
+        .set(item.block, { display: 'none' });
+      });
     }, bannerRef);
 
     return () => ctx.revert();
@@ -154,70 +110,74 @@ export default function Hero({ isLoaded = true }) {
       >
         <div className="w-full flex flex-col">
 
-          {/* 1. ABOVE NAME: Full Stack Developer — Word-by-word wave */}
-          <div className="flex flex-wrap items-center mb-2 sm:mb-3">
-            {TAG_WORDS.map((word, i) => (
-              <span key={i} className="relative inline-block overflow-hidden mr-2 sm:mr-2.5 py-0.5">
-                <span className="hero-anim-text tag-text text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-[#121316]/80 font-bold inline-block will-change-transform">
-                  {word}
-                </span>
-                <span 
-                  className="hero-anim-block tag-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform" 
-                  style={{ transform: 'translateX(-101%)' }}
-                />
-              </span>
-            ))}
+          {/* 1. ABOVE NAME: Full Stack Developer */}
+          <div className="relative inline-block overflow-hidden self-start mb-2 sm:mb-3">
+            <span
+              ref={tagTextRef}
+              className="text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-[#121316]/80 font-bold block"
+              style={{ opacity: 0 }}
+            >
+              FULL STACK DEVELOPER
+            </span>
+            <span
+              ref={tagBlockRef}
+              className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+              style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+            />
           </div>
 
-          {/* 2 & 3. 2-LINE ADAPTIVE NAME — Letter-by-letter wave just like preloader */}
+          {/* 2 & 3. 2-LINE ADAPTIVE NAME */}
           <h1
             className="text-[clamp(5.6rem,31.5vw,22vw)] font-black tracking-tight text-[#121316] uppercase leading-[0.92] select-none text-left flex flex-col gap-1 sm:gap-2"
             style={{ fontFamily: "'Anton', sans-serif" }}
           >
-            {/* LINE 1: MIDHUN (letter-by-letter) */}
-            <div className="flex flex-nowrap items-baseline self-start">
-              {MIDHUN_CHARS.map((char, i) => (
-                <span key={i} className="relative inline-block overflow-hidden py-0.5">
-                  <span className="hero-anim-text midhun-text inline-block will-change-transform">
-                    {char}
-                  </span>
-                  <span 
-                    className="hero-anim-block midhun-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform" 
-                    style={{ transform: 'translateX(-101%)' }}
-                  />
-                </span>
-              ))}
+            {/* LINE 1: MIDHUN */}
+            <div className="relative inline-block overflow-hidden self-start">
+              <span
+                ref={midhunTextRef}
+                className="block whitespace-nowrap"
+                style={{ opacity: 0 }}
+              >
+                MIDHUN
+              </span>
+              <span
+                ref={midhunBlockRef}
+                className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+                style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+              />
             </div>
 
-            {/* LINE 2: MOHAN (letter-by-letter) */}
-            <div className="flex flex-nowrap items-baseline self-start">
-              {MOHAN_CHARS.map((char, i) => (
-                <span key={i} className="relative inline-block overflow-hidden py-0.5">
-                  <span className="hero-anim-text mohan-text inline-block will-change-transform">
-                    {char}
-                  </span>
-                  <span 
-                    className="hero-anim-block mohan-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform" 
-                    style={{ transform: 'translateX(-101%)' }}
-                  />
-                </span>
-              ))}
+            {/* LINE 2: MOHAN */}
+            <div className="relative inline-block overflow-hidden self-start">
+              <span
+                ref={mohanTextRef}
+                className="block whitespace-nowrap"
+                style={{ opacity: 0 }}
+              >
+                MOHAN
+              </span>
+              <span
+                ref={mohanBlockRef}
+                className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+                style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+              />
             </div>
           </h1>
 
-          {/* 4. BELOW NAME: Quote — Word-by-word wave */}
-          <div className="flex flex-wrap items-center mt-3 sm:mt-5 max-w-2xl">
-            {QUOTE_WORDS.map((word, i) => (
-              <span key={i} className="relative inline-block overflow-hidden mr-1.5 sm:mr-2 py-0.5">
-                <span className="hero-anim-text quote-text text-[11px] sm:text-xs md:text-sm font-mono tracking-wide text-[#121316]/80 font-medium inline-block will-change-transform">
-                  {word}
-                </span>
-                <span 
-                  className="hero-anim-block quote-block absolute inset-0 bg-[#121316] pointer-events-none will-change-transform" 
-                  style={{ transform: 'translateX(-101%)' }}
-                />
-              </span>
-            ))}
+          {/* 4. BELOW NAME: Software Engineer Quote */}
+          <div className="relative inline-block overflow-hidden self-start mt-3 sm:mt-5 max-w-2xl">
+            <p
+              ref={quoteTextRef}
+              className="text-[11px] sm:text-xs md:text-sm font-mono tracking-wide text-[#121316]/80 font-medium"
+              style={{ opacity: 0 }}
+            >
+              “Transforming complex logic into seamless, high-performance digital experiences.”
+            </p>
+            <span
+              ref={quoteBlockRef}
+              className="absolute inset-0 bg-[#121316] pointer-events-none will-change-transform"
+              style={{ transform: 'scaleX(0)', transformOrigin: 'left center' }}
+            />
           </div>
 
         </div>
