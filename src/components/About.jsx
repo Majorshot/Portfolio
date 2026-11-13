@@ -46,20 +46,37 @@ export default function About() {
     if (!pinEl) return;
 
     const ctx = gsap.context(() => {
-      // Setup timeline with scroll pinning
-      const masterTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top top',
-          end: '+=220%',
-          pin: pinRef.current,
-          scrub: 0.9,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+      let hasPlayedRunner = false;
 
-      // Function to calculate coordinates from vertical stack to horizontal top
+      // Automatic headline runner block animation (plays automatically at natural speed once letters settle)
+      const playHeadlineRunner = () => {
+        if (hasPlayedRunner) return;
+        hasPlayedRunner = true;
+
+        const tl = gsap.timeline();
+        tl.fromTo(
+          '.about-reveal-block',
+          { xPercent: -101, opacity: 1 },
+          {
+            xPercent: 0,
+            duration: 0.38,
+            ease: 'power3.inOut',
+          }
+        )
+        .set('.about-reveal-text', { opacity: 1 }, '-=0.1')
+        .to(
+          '.about-reveal-block',
+          {
+            xPercent: 101,
+            duration: 0.38,
+            ease: 'power3.inOut',
+          },
+          '-=0.08'
+        )
+        .set('.about-reveal-block', { opacity: 0 });
+      };
+
+      // Function to calculate exact coordinates from vertical center stack to horizontal header
       const calculateDeltas = () => {
         const pinRect = pinEl.getBoundingClientRect();
         const centerX = pinRect.width / 2;
@@ -108,13 +125,33 @@ export default function About() {
       // Hide content initially
       gsap.set(contentRef.current, {
         opacity: 0,
-        y: 45,
+        y: 40,
       });
-      gsap.set('.about-reveal-block', { xPercent: -101 });
+      gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
       gsap.set('.about-reveal-text', { opacity: 0 });
 
-      // 2. KINETIC MIGRATION:
-      // Letters unspool from vertical stack and settle into the horizontal header at the top
+      // 2. Master Scrub Timeline for Letter Unspooling & Content Fade-in:
+      const masterTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: 'top top',
+          end: '+=130%',
+          pin: pinRef.current,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            // Reset runner animation if user scrolls back up
+            if (self.progress < 0.65) {
+              hasPlayedRunner = false;
+              gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
+              gsap.set('.about-reveal-text', { opacity: 0 });
+            }
+          },
+        },
+      });
+
+      // Letters unspool from vertical stack and settle horizontally into the top header
       lettersRef.current.forEach((el, i) => {
         if (!el) return;
         masterTl.to(
@@ -126,50 +163,30 @@ export default function About() {
             duration: 0.65,
             ease: 'power3.inOut',
           },
-          i * 0.045 // staggered unspooling from A -> B -> O -> U -> T -> M -> E
+          i * 0.04
         );
       });
 
-      // 3. REVEAL CONTENT:
-      // Once letters settle horizontally at the top, the content reveals underneath
+      // Once letters settle at top, show full content smoothly
       masterTl.to(
         contentRef.current,
         {
           opacity: 1,
           y: 0,
-          duration: 0.5,
+          duration: 0.45,
           ease: 'power3.out',
         },
-        '-=0.2'
-      )
-      // Signature runner block wipe on the headline
-      .fromTo(
-        '.about-reveal-block',
-        { xPercent: -101 },
-        {
-          xPercent: 0,
-          duration: 0.35,
-          ease: 'power3.inOut',
-        },
-        '-=0.25'
-      )
-      .set('.about-reveal-text', { opacity: 1 }, '-=0.1')
-      .to(
-        '.about-reveal-block',
-        {
-          xPercent: 101,
-          duration: 0.35,
-          ease: 'power3.inOut',
-        },
-        '-=0.08'
+        '-=0.15'
       );
+
+      // Automatically play the runner block animation as soon as the letters settle
+      masterTl.call(playHeadlineRunner, null, '+=0.05');
 
       // Recalculate positions on window resize
       ScrollTrigger.addEventListener('refreshInit', () => {
         const newDeltas = calculateDeltas();
         lettersRef.current.forEach((el, i) => {
           if (!el || !newDeltas[i]) return;
-          // Only update if at the start of scroll
           if (masterTl.progress() === 0) {
             gsap.set(el, { x: newDeltas[i].dx, y: newDeltas[i].dy });
           }
@@ -190,10 +207,10 @@ export default function About() {
       {/* Pinned Viewport Container */}
       <div
         ref={pinRef}
-        className="w-full h-screen relative overflow-hidden flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-12 sm:pt-14 pb-6 select-none"
+        className="w-full min-h-screen relative flex flex-col justify-start items-center px-4 sm:px-8 md:px-12 pt-10 sm:pt-14 pb-8 select-none"
       >
         {/* Top Technical Metadata Track */}
-        <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-4">
+        <div className="w-full max-w-6xl flex items-center justify-between z-30 text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00]/60 mb-2 sm:mb-3">
           <span>[ 01 // IDENTITY ]</span>
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#d4ff00] animate-pulse" />
@@ -246,14 +263,14 @@ export default function About() {
         </div>
 
         {/* 
-          UNVEILED CONTENT UNDERNEATH:
-          Reveals once the letters settle into horizontal alignment at the top
+          FULL UNVEILED CONTENT UNDERNEATH:
+          Shows fully once "ABOUT ME" settles at the top, without inner scroll containers
         */}
         <div
           ref={contentRef}
-          className="relative z-20 w-full max-w-6xl mx-auto flex flex-col justify-start gap-4 sm:gap-6 mt-3 sm:mt-6 overflow-y-auto max-h-[calc(100vh-170px)] pr-1"
+          className="relative z-20 w-full max-w-6xl mx-auto flex flex-col justify-start gap-4 sm:gap-6 mt-3 sm:mt-5"
         >
-          {/* Headline with Signature Kinetic Block Runner Wipe */}
+          {/* Headline with Automatic Signature Block Runner Wipe */}
           <div className="w-full flex flex-col items-start gap-1.5">
             <span className="text-[10px] sm:text-xs font-mono uppercase tracking-[0.25em] text-[#d4ff00] font-bold">
               FULL STACK PHILOSOPHY
@@ -323,14 +340,6 @@ export default function About() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Scroll Exploration Cue */}
-        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none flex items-center gap-2 text-[9px] sm:text-[10px] font-mono uppercase tracking-[0.2em] text-white/30">
-          <span>SCROLL TO ADVANCE</span>
-          <span className="w-1 h-3 rounded-full border border-white/30 inline-flex justify-center p-0.5">
-            <span className="w-0.5 h-1 bg-[#d4ff00] rounded-full animate-bounce" />
-          </span>
         </div>
       </div>
     </section>
