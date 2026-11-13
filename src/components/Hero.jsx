@@ -5,58 +5,48 @@ import Waves from './Waves';
 export default function Hero({ isLoaded = true }) {
   const bannerRef = useRef(null);
 
-  // 1. Always ensure blocks are parked off-screen as soon as Hero mounts
-  useEffect(() => {
-    gsap.set('.hero-reveal-text', { opacity: 0 });
-    gsap.set('.hero-reveal-block', { xPercent: -105, display: 'block' });
-  }, []);
-
-  // 2. Play the rightward double wipe animation once the preloader curtain has unfolded
   useEffect(() => {
     if (!isLoaded) return;
 
     const ctx = gsap.context(() => {
-      // Start with text hidden and runner blocks parked off-screen to the left (-105%)
-      gsap.set('.hero-reveal-text', { opacity: 0 });
-      gsap.set('.hero-reveal-block', { xPercent: -105, display: 'block' });
+      // 1. Initial State: All text and all blocks are strictly hidden before animation starts
+      gsap.set('.hero-reveal-text', { visibility: 'hidden', opacity: 0 });
+      gsap.set('.hero-reveal-block', { visibility: 'hidden', opacity: 0, xPercent: -101 });
 
-      const tl = gsap.timeline({ delay: 0.15 });
+      // Small pause after curtain unfolds before the reveal sequence begins
+      const tl = gsap.timeline({ delay: 0.2 });
 
       const rows = [
         { text: '.hero-tag-text', block: '.hero-tag-block', dur: 0.32 },
-        { text: '.hero-midhun-text', block: '.hero-midhun-block', dur: 0.38 },
-        { text: '.hero-mohan-text', block: '.hero-mohan-block', dur: 0.38 },
-        { text: '.hero-quote-text', block: '.hero-quote-block', dur: 0.34 },
+        { text: '.hero-midhun-text', block: '.hero-midhun-block', dur: 0.36 },
+        { text: '.hero-mohan-text', block: '.hero-mohan-block', dur: 0.36 },
+        { text: '.hero-quote-text', block: '.hero-quote-block', dur: 0.32 },
       ];
 
       rows.forEach((row, i) => {
-        // ENTRANCE: Runner block surges from left (-105% -> 0%)
-        tl.fromTo(
-          row.block,
-          { xPercent: -105 },
-          {
-            xPercent: 0,
-            duration: row.dur,
-            ease: 'power3.inOut',
-          },
-          i === 0 ? '+=0.05' : '-=0.18'
-        )
-        // Reveal text behind block as block fully covers it
-        .set(row.text, { opacity: 1 }, '-=0.1')
-        // EXIT: Runner block slides out to the right (0% -> 105%) to unveil text
-        .to(
-          row.block,
-          {
-            xPercent: 105,
-            duration: row.dur,
-            ease: 'power3.inOut',
-          },
-          '-=0.08'
-        );
-      });
+        // Step A: Only make this row's block visible at the exact moment its animation starts (parked at -101%)
+        tl.set(row.block, { visibility: 'visible', opacity: 1, xPercent: -101 }, i === 0 ? '+=0.05' : '-=0.14');
 
-      // Clean removal: hide runner blocks once reveal finishes so they never flash
-      tl.set('.hero-reveal-block', { display: 'none' });
+        // Step B: Block sweeps in from left (-101% -> 0%) covering the text area
+        tl.to(row.block, {
+          xPercent: 0,
+          duration: row.dur,
+          ease: 'power3.inOut',
+        });
+
+        // Step C: AT EXACT 0% (fully covered): text becomes visible underneath the block (never seen before wipe!)
+        tl.set(row.text, { visibility: 'visible', opacity: 1 });
+
+        // Step D: Block continues out to the right (0% -> 101%) unveiling the text cleanly
+        tl.to(row.block, {
+          xPercent: 101,
+          duration: row.dur,
+          ease: 'power3.inOut',
+        });
+
+        // Step E: Instantly hide this block so it never lingers or flashes
+        tl.set(row.block, { visibility: 'hidden', opacity: 0, display: 'none' });
+      });
     }, bannerRef);
 
     return () => ctx.revert();
@@ -101,12 +91,15 @@ export default function Hero({ isLoaded = true }) {
 
           {/* 1. ABOVE NAME: Full Stack Developer with rightward double animation */}
           <div className="relative inline-block overflow-hidden self-start mb-2 sm:mb-3">
-            <span className="hero-reveal-text hero-tag-text opacity-0 relative z-10 text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-[#121316]/80 font-bold block">
+            <span 
+              className="hero-reveal-text hero-tag-text relative z-10 text-[10px] sm:text-xs md:text-sm font-mono uppercase tracking-[0.25em] text-[#121316]/80 font-bold block"
+              style={{ visibility: 'hidden', opacity: 0 }}
+            >
               FULL STACK DEVELOPER
             </span>
             <span 
               className="hero-reveal-block hero-tag-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform" 
-              style={{ transform: 'translateX(-105%)' }}
+              style={{ visibility: 'hidden', opacity: 0, transform: 'translateX(-101%)' }}
             />
           </div>
 
@@ -117,35 +110,44 @@ export default function Hero({ isLoaded = true }) {
           >
             {/* LINE 1: MIDHUN */}
             <div className="relative inline-block overflow-hidden self-start">
-              <span className="hero-reveal-text hero-midhun-text opacity-0 relative z-10 block whitespace-nowrap">
+              <span 
+                className="hero-reveal-text hero-midhun-text relative z-10 block whitespace-nowrap"
+                style={{ visibility: 'hidden', opacity: 0 }}
+              >
                 MIDHUN
               </span>
               <span 
                 className="hero-reveal-block hero-midhun-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform" 
-                style={{ transform: 'translateX(-105%)' }}
+                style={{ visibility: 'hidden', opacity: 0, transform: 'translateX(-101%)' }}
               />
             </div>
 
             {/* LINE 2: MOHAN */}
             <div className="relative inline-block overflow-hidden self-start">
-              <span className="hero-reveal-text hero-mohan-text opacity-0 relative z-10 block whitespace-nowrap">
+              <span 
+                className="hero-reveal-text hero-mohan-text relative z-10 block whitespace-nowrap"
+                style={{ visibility: 'hidden', opacity: 0 }}
+              >
                 MOHAN
               </span>
               <span 
                 className="hero-reveal-block hero-mohan-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform" 
-                style={{ transform: 'translateX(-105%)' }}
+                style={{ visibility: 'hidden', opacity: 0, transform: 'translateX(-101%)' }}
               />
             </div>
           </h1>
 
           {/* 4. BELOW NAME: Software Engineer Quote with rightward double animation */}
           <div className="relative inline-block overflow-hidden self-start mt-3 sm:mt-5 max-w-2xl">
-            <p className="hero-reveal-text hero-quote-text opacity-0 relative z-10 text-[11px] sm:text-xs md:text-sm font-mono tracking-wide text-[#121316]/80 font-medium">
+            <p 
+              className="hero-reveal-text hero-quote-text relative z-10 text-[11px] sm:text-xs md:text-sm font-mono tracking-wide text-[#121316]/80 font-medium"
+              style={{ visibility: 'hidden', opacity: 0 }}
+            >
               “Transforming complex logic into seamless, high-performance digital experiences.”
             </p>
             <span 
               className="hero-reveal-block hero-quote-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform" 
-              style={{ transform: 'translateX(-105%)' }}
+              style={{ visibility: 'hidden', opacity: 0, transform: 'translateX(-101%)' }}
             />
           </div>
 

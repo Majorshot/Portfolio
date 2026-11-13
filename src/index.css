@@ -62,9 +62,12 @@ body {
 
 /* Initial parked state for Hero reveal blocks - eliminates split-second flash */
 .hero-reveal-block {
-  transform: translateX(-105%);
+  visibility: hidden;
+  opacity: 0;
+  transform: translateX(-101%);
 }
 
 .hero-reveal-text {
+  visibility: hidden;
   opacity: 0;
 }
