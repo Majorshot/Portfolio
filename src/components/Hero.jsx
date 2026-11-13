@@ -248,8 +248,8 @@ export default function Hero({ isLoaded = true }) {
             </div>
 
             {/* LINE 2: MOHAN + ROTATING GEMINI STAR IN VACANT SPACE */}
-            <div className="flex items-center gap-3 sm:gap-6 md:gap-8 flex-nowrap self-start">
-              <div className="relative inline-block overflow-hidden self-start">
+            <div className="w-full flex items-center justify-between flex-nowrap">
+              <div className="relative inline-block overflow-hidden self-start shrink-0">
                 <span
                   className="hero-reveal-text hero-mohan-text relative z-10 block whitespace-nowrap"
                   style={{ opacity: 0 }}
@@ -262,32 +262,34 @@ export default function Hero({ isLoaded = true }) {
                 />
               </div>
 
-              {/* Rotating Gemini Star */}
-              <div 
-                className="hero-gemini-star flex items-center justify-center shrink-0 select-none group cursor-pointer"
-                style={{ opacity: 0 }}
-                title="Google Gemini AI"
-              >
-                <div className="animate-gemini-float">
-                  <svg
-                    viewBox="0 0 100 100"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 text-[#121316] animate-gemini-spin will-change-transform drop-shadow-[0_2px_10px_rgba(18,19,22,0.2)] transition-transform duration-300 group-hover:scale-110"
-                  >
-                    {/* Outer 4-pointed Gemini star in carbon black */}
-                    <path
-                      d="M50 0C50 27.614 27.614 50 0 50C27.614 50 50 72.386 50 100C50 72.386 72.386 50 100 50C72.386 50 50 27.614 50 0Z"
-                      fill="currentColor"
-                    />
-                    {/* Inner 4-pointed star in lime yellow */}
-                    <path
-                      d="M50 30C50 41.046 41.046 50 30 50C41.046 50 50 58.954 50 70C50 58.954 58.954 50 70 50C58.954 50 50 41.046 50 30Z"
-                      fill="#d4ff00"
-                    />
-                    {/* Center floating pupil / iris dot */}
-                    <circle cx="50" cy="50" r="4" fill="currentColor" />
-                  </svg>
+              {/* Centered Rotating Gemini Star in remaining space */}
+              <div className="flex-1 flex items-center justify-center min-w-0">
+                <div 
+                  className="hero-gemini-star flex items-center justify-center shrink-0 select-none group cursor-pointer"
+                  style={{ opacity: 0 }}
+                  title="Google Gemini AI"
+                >
+                  <div className="animate-gemini-float">
+                    <svg
+                      viewBox="0 0 100 100"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-12 h-12 sm:w-18 sm:h-18 md:w-22 md:h-22 lg:w-26 lg:h-26 text-[#121316] animate-gemini-spin will-change-transform drop-shadow-[0_2px_10px_rgba(18,19,22,0.2)] transition-transform duration-300 group-hover:scale-110"
+                    >
+                      {/* Outer 4-pointed Gemini star in carbon black */}
+                      <path
+                        d="M50 0C50 27.614 27.614 50 0 50C27.614 50 50 72.386 50 100C50 72.386 72.386 50 100 50C72.386 50 50 27.614 50 0Z"
+                        fill="currentColor"
+                      />
+                      {/* Inner 4-pointed star in lime yellow */}
+                      <path
+                        d="M50 30C50 41.046 41.046 50 30 50C41.046 50 50 58.954 50 70C50 58.954 58.954 50 70 50C58.954 50 50 41.046 50 30Z"
+                        fill="#d4ff00"
+                      />
+                      {/* Center floating pupil / iris dot */}
+                      <circle cx="50" cy="50" r="4" fill="currentColor" />
+                    </svg>
+                  </div>
                 </div>
               </div>
             </div>
