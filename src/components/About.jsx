@@ -141,22 +141,22 @@ export default function About() {
       gsap.set('.about-reveal-text', { opacity: 0 });
 
       // 2. Master Scrub Timeline for Letter Unspooling:
-      // Pinned for a short, responsive distance (75vh), unspools letters to top
+      // Pinned for a short, responsive distance (85vh), unspools letters to top
       const masterTl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: '+=75%',
+          end: '+=85%',
           pin: pinRef.current,
           scrub: 0.6,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
-            // As soon as letters settle at the top (progress >= 0.45), show all content automatically!
-            if (self.progress >= 0.45) {
+            // ONLY reveal when ALL letters have 100% reached their docked horizontal positions at the top
+            if (self.progress >= 0.95) {
               revealAboutContent();
-            } else if (self.progress < 0.2) {
-              // Reset if user scrolls back up into Hero
+            } else if (self.progress < 0.88) {
+              // Strictly hide content while letters are in motion so there is zero overlap
               hasRevealedContent = false;
               gsap.set(contentRef.current, { opacity: 0, y: 30 });
               gsap.set('.about-reveal-block', { xPercent: -101, opacity: 0 });
