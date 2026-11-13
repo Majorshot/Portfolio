@@ -38,10 +38,92 @@ const BOTTOM_TOOLS_TRACK = [
   'CI/CD AUTOMATION ///',
 ];
 
+const MIDHUN_LETTERS = ['M', 'I', 'D', 'H', 'U', 'N'];
+const MOHAN_LETTERS = ['M', 'O', 'H', 'A', 'N'];
+
 export default function Hero({ isLoaded = true }) {
   const bannerRef = useRef(null);
+  const animateLetterRef = useRef(null);
 
   useEffect(() => {
+    let loopTimeout = null;
+    let isCancelled = false;
+
+    // Kinetic letter displacement animation (moves out in direction, instantly wraps to opposite side and snaps back)
+    const animateLetter = (charEl) => {
+      if (!charEl || charEl._isAnimating) return;
+      charEl._isAnimating = true;
+
+      // Favor Down -> In from Top and Left -> In from Right as requested
+      const MODES = [0, 1, 0, 1, 2, 3];
+      const mode = MODES[Math.floor(Math.random() * MODES.length)];
+      const durOut = 0.21 + Math.random() * 0.05;
+      const durIn = 0.25 + Math.random() * 0.05;
+
+      const tl = gsap.timeline({
+        onComplete: () => {
+          charEl._isAnimating = false;
+        },
+      });
+
+      if (mode === 0) {
+        // Down -> In from Top ("I moves down and comes right after")
+        tl.to(charEl, { yPercent: 112, duration: durOut, ease: 'power2.in' })
+          .set(charEl, { yPercent: -112, xPercent: 0 })
+          .to(charEl, { yPercent: 0, duration: durIn, ease: 'power2.out' });
+      } else if (mode === 1) {
+        // Left -> In from Right ("D moves left and comes right after")
+        tl.to(charEl, { xPercent: -112, duration: durOut, ease: 'power2.in' })
+          .set(charEl, { xPercent: 112, yPercent: 0 })
+          .to(charEl, { xPercent: 0, duration: durIn, ease: 'power2.out' });
+      } else if (mode === 2) {
+        // Up -> In from Bottom
+        tl.to(charEl, { yPercent: -112, duration: durOut, ease: 'power2.in' })
+          .set(charEl, { yPercent: 112, xPercent: 0 })
+          .to(charEl, { yPercent: 0, duration: durIn, ease: 'power2.out' });
+      } else {
+        // Right -> In from Left
+        tl.to(charEl, { xPercent: 112, duration: durOut, ease: 'power2.in' })
+          .set(charEl, { xPercent: -112, yPercent: 0 })
+          .to(charEl, { xPercent: 0, duration: durIn, ease: 'power2.out' });
+      }
+    };
+
+    animateLetterRef.current = animateLetter;
+
+    const triggerRandomLetter = () => {
+      if (isCancelled || document.hidden) return;
+      const allChars = bannerRef.current?.querySelectorAll('.name-glitch-char');
+      if (!allChars || !allChars.length) return;
+
+      const available = Array.from(allChars).filter((c) => !c._isAnimating);
+      if (!available.length) return;
+
+      const chosen = available[Math.floor(Math.random() * available.length)];
+      animateLetter(chosen);
+
+      // 30% chance of a staggered double flick (another letter moves just after)
+      if (Math.random() < 0.3 && available.length > 1) {
+        const remaining = available.filter((c) => c !== chosen);
+        const second = remaining[Math.floor(Math.random() * remaining.length)];
+        setTimeout(() => {
+          if (!isCancelled) animateLetter(second);
+        }, 150);
+      }
+    };
+
+    const startLetterLoop = () => {
+      const schedule = () => {
+        if (isCancelled) return;
+        const nextDelay = 1200 + Math.random() * 1800; // random 1.2s to 3s
+        loopTimeout = setTimeout(() => {
+          triggerRandomLetter();
+          schedule();
+        }, nextDelay);
+      };
+      schedule();
+    };
+
     // Park runner blocks and hide text immediately on mount, even while isLoaded is false
     gsap.set('.hero-reveal-text', { opacity: 0 });
     gsap.set('.hero-reveal-block', { xPercent: -101, opacity: 0, x: 0 });
@@ -112,9 +194,16 @@ export default function Hero({ isLoaded = true }) {
           }, '-=0.15');
         }
       });
+
+      // Start the ambient random letter animation after all reveals settle
+      tl.call(startLetterLoop, null, '+=0.5');
     }, bannerRef);
 
-    return () => ctx.revert();
+    return () => {
+      isCancelled = true;
+      clearTimeout(loopTimeout);
+      ctx.revert();
+    };
   }, [isLoaded]);
 
   return (
@@ -236,10 +325,22 @@ export default function Hero({ isLoaded = true }) {
             {/* LINE 1: MIDHUN */}
             <div className="relative inline-block overflow-hidden self-start">
               <span
-                className="hero-reveal-text hero-midhun-text relative z-10 block whitespace-nowrap"
+                className="hero-reveal-text hero-midhun-text relative z-10 inline-flex flex-nowrap items-baseline whitespace-nowrap"
                 style={{ opacity: 0 }}
               >
-                MIDHUN
+                {MIDHUN_LETTERS.map((char, i) => (
+                  <span
+                    key={`midhun-${i}`}
+                    className="relative inline-block overflow-hidden"
+                  >
+                    <span
+                      className="name-glitch-char inline-block will-change-transform cursor-pointer"
+                      onPointerEnter={(e) => animateLetterRef.current?.(e.currentTarget)}
+                    >
+                      {char}
+                    </span>
+                  </span>
+                ))}
               </span>
               <span
                 className="hero-reveal-block hero-midhun-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform"
@@ -251,10 +352,22 @@ export default function Hero({ isLoaded = true }) {
             <div className="w-full flex items-center justify-between flex-nowrap">
               <div className="relative inline-block overflow-hidden self-start shrink-0">
                 <span
-                  className="hero-reveal-text hero-mohan-text relative z-10 block whitespace-nowrap"
+                  className="hero-reveal-text hero-mohan-text relative z-10 inline-flex flex-nowrap items-baseline whitespace-nowrap"
                   style={{ opacity: 0 }}
                 >
-                  MOHAN
+                  {MOHAN_LETTERS.map((char, i) => (
+                    <span
+                      key={`mohan-${i}`}
+                      className="relative inline-block overflow-hidden"
+                    >
+                      <span
+                        className="name-glitch-char inline-block will-change-transform cursor-pointer"
+                        onPointerEnter={(e) => animateLetterRef.current?.(e.currentTarget)}
+                      >
+                        {char}
+                      </span>
+                    </span>
+                  ))}
                 </span>
                 <span
                   className="hero-reveal-block hero-mohan-block absolute inset-0 bg-[#121316] z-20 pointer-events-none will-change-transform"
